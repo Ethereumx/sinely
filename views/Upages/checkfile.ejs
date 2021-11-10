@@ -1,0 +1,80 @@
+<script src="/js/qr/qrcode.min.js"></script>
+
+<body>
+    <!-- Sidenav -->
+    <% include ../partials/sidebar %>
+    <!-- Main content -->
+    <div class="main-content">
+      <!-- Top navbar -->
+      <% include ../partials/navbar %>
+      <!-- Header -->
+      <% include ../partials/header2 %>
+      <!-- Page content -->
+      <div class="container-fluid mt--7">
+        <div class="row">
+          <div class="col">
+            <div class="card shadow border-0">
+                <div>
+    
+                  <h1 style="padding: 10px;">Vérification de document</h1>
+
+                  <form action="/checkfile" method="post" > 
+                    
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>Veuillez fournir le hash/ID du document
+                          </label>
+                          <div class="input-group mb-3">
+                            <input class="form-control" placeholder="Exapmle: c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470" type="text" name="hashFile" required>
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                            </div>
+                          </div>
+                        
+                          <button class="btn btn-icon btn-3 btn-primary"   type="submit">
+                            <span class="btn-inner--icon"><i class="ni ni-bold-up"></i></span>
+                          
+                              <span class="btn-inner--text">Vérifier</span>
+                          
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </form>
+                  
+                  <div>
+                    
+                    <div class="col-md-9" style="float:left">
+                      <% if (locals.messages && locals.messages.errors ) { %>
+                        <div class="alert alert-warning" role="alert" id="alert_back">
+                          </p>
+                          <p id = "Alert"> <%= messages.errors %>
+                          </p>
+                      </div>
+                      <% } %>
+              
+                      
+                    </div>          
+              
+                  </div>
+
+
+                </div> 
+
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Footer -->
+        <% include ../partials/footer %>
+      </div>
+    </div>
+
+
+    <!-- Include scripts -->
+    <% include ../partials/scripts %>
+  </body>
+  

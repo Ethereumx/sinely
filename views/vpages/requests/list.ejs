@@ -1,0 +1,208 @@
+<body>
+    <!-- Sidenav -->
+    <% include ../../vpartials/sidebar %>
+    <!-- Main content -->
+    <div class="main-content">
+      <!-- Top navbar -->
+      <% include ../../vpartials/navbar %>
+      <!-- Header -->
+      <% include ../../vpartials/header2 %>
+      <!-- Page content -->
+      <div class="container-fluid mt--6">
+
+   
+
+          <div class="col">
+            <div class="card shadow border-0">
+                <div>
+                  
+          <div style="padding-bottom: 20px; margin:20px;">
+          <a href="/request" class="btn btn-success">Nouvelle demande</a>
+          
+          </div>
+
+
+           <% if (locals.messages && locals.messages.errors ) { %>
+            <div class="alert alert-warning col-md-6" role="alert" >
+                <span style="color:white"> <%= messages.errors %> </span>
+            </div>  
+              <% } %>
+
+              <% if (locals.messages && locals.messages.success ) { %>
+                <div class="alert alert-success col-md-6" role="alert"   >
+                    <span style="color:white"> <%= messages.success %> </span>
+                </div>  
+                  <% } %>
+     
+
+          <div class="nav-wrapper">
+            <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true">
+                      <i class="ni ni-bold-left"></i>Demandes Entrantes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false">
+                      <i class="ni ni-bold-right"></i>Demandes Sortantes</a>
+                </li>
+           
+            </ul>
+        </div>
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="table-responsive" id="myTabContent">
+                    <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+                      <!--     Here REquests table -->
+                      <table class="table align-items-center ">
+                        <thead class="thead-light">
+                          <tr>
+                            <th scope="col">Télécharger </th>
+    
+                            <th scope="col">Document à signer </th>
+                            <th scope="col">Expediteur</th>
+                            <th scope="col">Message</th>
+    
+                            <th scope="col">Status</th>
+                       
+                            <th scope="col"></th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% 
+                          if (locals.messages && !locals.messages.errors ) { 
+                          for(let i =0; i<requestsList.length; i++){ %>
+                          <tr>
+                            <th>  
+                              <button class="btn btn-primary" onclick="window.location = '<%= requestsList[i].path %>';"
+                                type="submit" > <span class="btn-inner--icon">
+                                <i class="ni ni-cloud-download-95"></i></span></button>
+                             </th>
+                            <th scope="row">
+                              <div class="media align-items-center">
+                             
+                                <div class="media-body">
+                                  <span class="mb-0 text-sm"><a href="<%= requestsList[i].path %>"><%= requestsList[i].fileName %></a></span>
+                                </div>
+                              </div>
+                            </th>
+                            <th>
+                              <%= requestsList[i].issuer %>
+                            </th>
+                            <th style="width:20%;">
+           
+                              <span class="badge badge-dot mr-4">
+                                <div style="    white-space: -o-pre-wrap; 
+                                word-wrap: break-word;
+                                white-space: pre-wrap; 
+                                white-space: -moz-pre-wrap; 
+                                white-space: -pre-wrap; "><i class="bg-success"></i> <%= requestsList[i].description %></div>
+                              </span> 
+                            </th>
+                    
+                            <th>
+                              <span class="badge badge-dot mr-4">
+                                <i class="  <% if(requestsList[i].status == "signed" ){ %> bg-success <%} else{%> bg-warning<%}%>" ></i> <%= requestsList[i].status %>
+                              </span>
+                            </th>
+                            <th> 
+                              <% if(requestsList[i].status != "signed" ){ %>
+                              <form action="/request/sign/<%= requestsList[i].fileId %>"  method="POST">
+                                <input type="hidden" name="path" value="<%= requestsList[i].path %>">
+                                <input type="hidden" name="name" value="<%= requestsList[i].fileName %>">
+                                <input type="hidden" name="fileId" value="<%= requestsList[i].fileId %>">
+    
+                                <input type="hidden" name="description" value="<%= requestsList[i].description %>">
+    
+                                <button class="btn btn-primary" type="submit">Signer</button>
+                              </form>
+                              <% } %>
+                            </th>
+                          </tr>
+                          
+                          <% } 
+                        }
+                       
+                        %>
+                     </tbody>
+                      </table>
+    
+                    </div>
+                    <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                      <!--     Here second table -->
+
+                      <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                          <tr>
+                            <th scope="col">Télécharger </th>
+    
+                            <th scope="col">Document à signer </th>
+     
+                            <th scope="col">Status</th>
+                       
+                            <th scope="col">ID</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% 
+                          if (locals.messages && !locals.messages.errors ) { 
+                          for(let i =0; i<allSentRequests.length; i++){ %>
+                          <tr>
+                            <th>  
+                              <button class="btn btn-icon  btn-primary" onclick="window.location = '<%= allSentRequests[i].path %>';"  type="submit">
+                                <span class="btn-inner--icon"><i class="ni ni-bold-down"></i></span>
+                                                      
+                              </button>
+                             </th>
+                            <th scope="row">
+                              <div class="media align-items-center">
+                             
+                                <div class="media-body">
+                                  <span class="mb-0 text-sm"><a href="<%= allSentRequests[i].path %>"><%= allSentRequests[i].fileName %></a></span>
+                                </div>
+                              </div>
+                            </th>
+                          
+                             
+                    
+                            <td>
+                              <span class="badge badge-dot mr-4">
+                                <i class="  <% if(allSentRequests[i].status == "signed" ){ %> bg-success <%
+                                } else{%> bg-warning<%}%>" ></i> <%= allSentRequests[i].status %>
+                              </span>
+                            </td>
+                            <td> 
+                              <% if(allSentRequests[i].status == "signed" ){ %> <span><a href='/file/<%= allSentRequests[i].hash %>'><%= allSentRequests[i].hash %></a></span> <% } %>
+                            </td>
+                            <td></td>
+                          </tr>
+                          
+                          <% } 
+                        }
+                       
+                        %>
+                     </tbody>
+                      </table>
+                     </div>
+                   
+                </div>
+            </div>
+        </div>
+                 
+
+                </div> 
+
+            </div>
+          </div>
+        </div>
+        <!-- Footer -->
+        <% include ../../vpartials/footer %>
+      </div>
+    </div>
+
+
+    <!-- Include scripts -->
+    <% include ../../vpartials/scripts %>
+  </body>
+  

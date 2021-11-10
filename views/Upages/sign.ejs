@@ -1,0 +1,196 @@
+<script src="/js/qr/qrcode.min.js"></script>
+<script src="/vendor/jquery/dist/jquery.min.js"></script> 
+<body>
+    <!-- Sidenav -->
+    <% include ../partials/sidebar %>
+    <!-- Main content -->
+    <div class="main-content">
+      <!-- Top navbar -->
+      <% include ../partials/navbar %>
+      <!-- Header -->
+      <% include ../partials/header2 %>
+      <!-- Page content -->
+      <div class="container-fluid mt--7">
+        <div class="row">
+          <div class="col">
+            <div class="card shadow border-0">
+                <div>
+                
+                  <h1 style="padding: 10px;">Signature de document</h1>
+                  <form action="/sign" method="post" enctype="multipart/form-data"> 
+                    
+                      <div class="col-md-12">
+                        <div class="form-group">
+
+                          <label>Voulez vous rendre votre document accessible aux vérificateurs lors de sa vérification sur Sinely ?</label>
+<br>
+                          <label class="custom-toggle">
+                            <input type="checkbox" checked id="privacy" name="privacy">
+                            <span class="custom-toggle-slider rounded-circle " data-label-off="Non" data-label-on="Oui" style="color:blue;">Oui</span>
+                        </label>
+                        </div>
+                        <div class="form-group">
+                        
+                          <small>Taille du document doit être inférieure à 10 Mo</small>
+
+                           <div class="input-group mb-3">
+                             
+                            <input class="form-control" placeholder="Document à signer" type="file" name="filetosign"  id="filetosign" 
+                            accept=".bmp, .doc, .pdf, .docx, .txt, .jpeg, .png, .jpg, .xls,.xlsx"
+                            required>
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                            </div>
+
+                          </div>
+                          <div class="input-group mb-3">
+                            <textarea class="form-control"  maxlength="255" id="description" rows="3" placeholder="Brève description de votre document" name="description"></textarea>                            
+                            
+                          </div>
+                          <button class="btn btn-icon btn-3 btn-success"   type="submit" onclick="checkfile()">
+                            <span class="btn-inner--icon"><i class="ni ni-send"></i></span>
+                          
+                              <span class="btn-inner--text">Signer</span>
+                          
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </form>
+                  <% if (locals.messages && locals.messages.success ) { %>
+                    <label>Signature (Sinely Qr Code) </label>
+                    <% } %>
+                  <div class="row">
+                    <% if (locals.messages && locals.messages.success ) { %>
+                       <div class="col-md-3  justify-content-md-center" style="margin-left: 10px;" >
+                      <img  id="imageQ" width="100%">
+                      
+                    </div>
+                    <% } %>
+                    <div class="col-8"  >
+                      <% if (locals.messages && locals.messages.errors ) { %>
+                        <div class="alert alert-warning" role="alert" id="alert_back">
+                          </p>
+                          <p id = "Alert"> <%= messages.errors %>
+                          </p>
+                      </div>
+                      <% } %>
+              
+                      <% if (locals.messages && locals.messages.success ) { %>
+                      <div class="alert alert-success" role="alert">
+                    <strong> <%= messages.success %></strong>
+                                        <br><br>
+                        <p id="phash"><strong>Identifiant de vérification:</strong><br> <%= messages.hash %></p>
+                   
+                        <p id="psignature"><strong>E-Signature:<br></strong><%= messages.signature %></p>
+                      
+                        <p id="ppublickey"><strong>Votre clé publique:</strong><br><%= messages.publicKey %></p>
+                        <br><p><strong>Lien de partage:</strong><br><span >
+                          <a href="/file/<%= messages.hash || '' %>">
+                           <%= messages.url %>/file/<%= messages.hash || '' %>
+                       </a></span></p> 
+
+          
+                    <script type="text/javascript">
+                      var opts = {
+                      errorCorrectionLevel: 'H',
+                      type: 'image/jpeg',
+                      quality: 0.3,
+                      margin: 1,
+                      color: {
+                        dark:"#00000000",
+                        light:"#FFFFFFFF"
+                      }
+                    }
+
+                    QRCode.toDataURL("<%=messages.url%>/file/sdata=<%=messages.jsonSignature%>", opts, function (err, url) {
+                      if (err) throw err
+
+                      var img = document.getElementById('imageQ')
+                      img.src = url
+                    })
+                            </script> 
+                    </div>
+                       
+                 
+                      <% } %>
+                    </div>          
+              
+                  </div>
+
+
+                </div> 
+
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="canvasModal" tabindex="-1" role="dialog" aria-labelledby="canvasModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="canvasModalLabel">Votre certificat a été généré avec succès</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body " style="margin-left: 5%;">
+             
+                <canvas   id="canvasUrlPop">
+                  <span class="btn-inner--icon">
+                  <i class="ni ni-cloud-download-95 text-white"></i></span>
+                </canvas> 
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+               </div>
+             <script>
+              QRCode.toCanvas(document.getElementById('canvasUrlPop'), '<%=messages.url%>/file/sdata=<%=messages.jsonSignature%>', 
+ function (error) { 
+                  })</script>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Footer -->
+        <% include ../partials/footer %>
+      </div>
+    </div>
+
+
+    <!-- Include scripts -->
+    <% include ../partials/scripts %>
+    <script>
+  $('#button').click(function () {
+    $("input[type='file']").trigger('click');
+})
+$('#filetosign').on('change', function() {
+ var numb = $(this)[0].files[0].size/1024/1024;
+numb = numb.toFixed(2);
+ 
+
+if(numb > 10){
+alert('Le fichier chargé dépasse la limite de 10 Mega');
+var file = document.getElementById("filetosign");
+    file.value = file.defaultValue;
+}   
+else{
+ 
+}
+   });
+ 
+</script>
+<% if (locals.messages && locals.messages.success ) { %>
+  <script type="text/javascript">
+                      $(window).on('load', function() {
+                          $('#canvasModal').modal('show');
+                      });
+
+                  </script>
+
+
+                      <% } %>
+  </body>
+  

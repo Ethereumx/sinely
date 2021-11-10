@@ -1,0 +1,144 @@
+<head>
+ 
+  <link rel="shortcut icon" href="/img/theme/favicon.ico">
+
+  
+
+  <!-- fonts -->
+  <link href="../css/font-roboto.css" rel="stylesheet" as="font">
+      <link href="../css/font-feather.css" rel="stylesheet" as="font" media="none" onload="this.media='all';">
+  <link href="../css/font-fileuploader.css" rel="stylesheet" as="font" media="none" onload="this.media='all';">
+
+  <!-- styles -->
+      <link href="../vendor/bootstrap/dist/css/bootstrap.min.css?v=2.2" rel="stylesheet">
+  <link href="../css/jquery.slick.css" media="all" rel="stylesheet">
+  <link href="../css/main.css?v=2.2.2" media="all" rel="stylesheet">
+ 
+
+<link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,700" rel="stylesheet">
+
+</head>
+<body  style="background-color:black;color:white;">
+  <div class="header header-alt ">
+    <div class="main-content container ">
+      <div class="row">
+
+
+
+
+<nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
+<table><tr><td>  <img src="https://www.adalia.ac.ma/wp-content/uploads/2020/03/logo-adalia-645.png">
+  
+ </td></tr> <tr><td> <span style='color:#a3a8c2;font-size: 11px;'> Powered by Sinely</span> </td><tr></table>
+ 
+  <div class="container px-4">
+    <!-- <img src="/img/logo.png" width="200px"/> -->
+ 
+ 
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-collapse-main">
+      <!-- Collapse header -->
+      <div class="navbar-collapse-header d-md-none">
+        <div class="row">
+          <div class="col-6 collapse-brand">
+            <a href="/">
+            </a>
+          </div>
+          <div class="col-6 collapse-close">
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle sidenav">
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+ 
+    </div>
+  </div>
+</nav>
+
+
+
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+
+<div /*class="main"*/ style="    position: relative; padding: 190px 0;">
+	<div class="container">
+		<div class="row mt--6"><br>
+			<div class="col-md-8 main-content mt--2">
+				<div><span style='  
+          font-family: "Montserrat",montserrat;
+          font-size: 33px;
+          font-weight: 500;
+          line-height: 1.2em;'>
+          Vérifier la validité et l'authenticité des diplômes remis par Adalia Business School sur la Blockchain</span>
+				<!-- <p style="padding-top: 15px;color: #29428f;
+        line-height: 24px;">
+          Avec Sinely, vous pouvez signer, vérifier et émettre facilement vos documents sur la <code>Blockchain</code> sans vous soucier de la complexité téchnique. 
+          En utilisant un identifiant sinely, vous pouvez facilement vérifier l'intégrité et la signature des documents.</p> -->
+      </div>
+      
+      
+  <div style="  padding-top: 30px; ">
+
+ <form action="/adalia/file/" method="POST" class="subscribe-form">
+
+	<div class="input-group mb-3">
+		<input type="text" name="hashFile" class="form-control" placeholder="L'ID du diplôme à vérifier" style="border: 0.1px dashed rebeccapurple;" required>
+
+    
+	  </div>
+ 
+    <div class="input-group mb-3">
+
+				<ul class="list-inline">
+					<li class="list-inline-item">
+					 <button class="btn btn-icon btn-3 btn-primary"   type="submit">
+							<span class="btn-inner--icon"><i class="ni ni-zoom-split-in"></i></span>
+						   <span class="btn-inner--text">Vérifier</span>
+						  
+              </button>					 
+            </li>
+              
+         </ul>
+
+      
+      </div>
+				 
+        </form>
+      </div>
+
+      </div>
+      
+			<div class="col-md-5 main-circle" style="    background: url(/img/theme/landing_header_globe.png) no-repeat top right;">
+       
+      </div>
+    </div>
+
+    <% if (locals.messages && locals.messages.errors ) { %>
+    <div class="alert alert-danger col-md-5" role="alert" id="alert_back" style="background-color: #d3404d">
+        <p style="color:white"> <%= messages.errors %> </p>
+    </div>  
+      <% } %>
+	</div>
+</div>
+
+ 
+
+
+
+
+
+ 
+
+ 	<script src="../vendor/jquery/dist/jquery.min.js" type="text/javascript"></script>
+        <link href="../css/prettyprint.css" media="all" rel="stylesheet">
+</body>

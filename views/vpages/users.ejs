@@ -1,0 +1,104 @@
+<body>
+  <!-- Sidenav -->
+  <% include ../vpartials/sidebar %>
+  <!-- Main content -->
+  <div class="main-content">
+    <!-- Top navbar -->
+    <% include ../vpartials/navbar %>
+    <!-- Header -->
+    <% include ../vpartials/header2 %>
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+      <div class="row">
+        <div class="col">
+          <div class="card shadow border-0">
+              <div>
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">User name</th>
+                      <th scope="col">EMail</th>
+                      <th scope="col">Affiliation  </th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Vérifié</th>
+                      <th scope="col">Statut</th>
+
+                      <th scope="col">Action</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for(let i =0; i<pendingUser.length; i++){ %>
+                    <tr>
+                      <th scope="row">
+                        <div class="media align-items-center">
+                          <a href="#" class="avatar rounded-circle mr-3">
+                            <!-- <img alt="Image placeholder" src="img/theme/bootstrap.jpg"> -->
+                            <i class="ni ni-paper-diploma"></i>
+                          </a>
+                          <div class="media-body">
+                            <span class="mb-0 text-sm"><a href="<%= pendingUser[i].path %>"><%= pendingUser[i].name %></a></span>
+                          </div>
+                        </div>
+                      </th>
+                      <td>
+                        <%= pendingUser[i].email %>
+                      </td>
+                      <td>
+                        <span class="badge badge-dot mr-4">
+                          <i class="bg-warning"></i> <%= pendingUser[i].claim %>
+                        </span>
+                      </td>
+                      <!-- <td>
+                        <div class="avatar-group">
+                     
+                    <a href="#" class="avatar avatar-sm" data-toggle="tooltip"  >
+                            <img alt="Image placeholder" src="img/theme/team-1-800x800.jpg" class="rounded-circle">
+                          </a>  
+            
+                        </div>
+                      </td> -->
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <span class="mr-2"><%= (new Date(pendingUser[i].created_at)).toLocaleDateString('fr-FR'); %></span>
+                        
+                          <div>
+  
+                          </div>
+                        </div>
+                      </td>
+                      <td><%= pendingUser[i].verified %></td>
+                      <td><%= pendingUser[i].status %></td>
+                      <td><a   href="/users/edit/<%= pendingUser[i].id %>" role="button" >
+                          EDIT
+                      </a></td>
+                      <td class="text-right">
+                        <div class="dropdown">
+                          <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow"> 
+                            <a class="dropdown-item" href="/users/edit/<%= pendingUser[i].id %>">Edit</a>
+
+                          </div>
+                        </div>
+                      </td> 
+                    </tr>
+                    
+                    <% } %>
+               </tbody>
+                </table>
+              </div> 
+
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+      <% include ../vpartials/footer %>
+    </div>
+  </div>
+
+
+  <!-- Include scripts -->
+  <% include ../vpartials/scripts %>
+</body>

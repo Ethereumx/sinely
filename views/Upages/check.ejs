@@ -1,0 +1,400 @@
+<script src="/js/qr/qrcode.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<body>
+    <!-- Sidenav -->
+    <% include ../partials/sidebar %>
+    <!-- Main content -->
+    <div class="main-content">
+      <!-- Top navbar -->
+      <% include ../partials/navbar %>
+      <!-- Header -->
+      <% include ../partials/header2 %>
+      <!-- <script type="text/javascript" src="/js/zxing-browser.min.js"></script> -->
+      <script type="text/javascript" src="/js/zxing-browser.min.js"></script>
+
+      
+       <script type="text/javascript">
+       async function decodeQr() {
+
+        document.getElementById("signature").value= '';
+        document.getElementById("publicKey").value= '';
+        document.getElementById("docHash").value='';
+
+        document.getElementById("errorMessage").innerHTML = '';
+       // document.getElementById("response").style.display = "none";
+
+        try{
+        const codeReader = new ZXingBrowser.BrowserQRCodeReader();
+        var oFReader = new FileReader();
+        const img= document.getElementById("qrCodeFile").files[0];
+        const r=oFReader.readAsDataURL(img);
+
+
+        oFReader.onload = function (oFREvent) {
+ 
+            document.getElementById("uploadPreview").src = oFREvent.target.result;
+            document.getElementById("uploadPreview").style.display = "block";
+
+
+        };
+
+
+        const sourceElem = document.querySelector('#uploadPreview');
+        const resultImage = await codeReader.decodeFromImageElement(sourceElem);
+        var content=resultImage.text;
+        
+        var Jsoncontent=content.split("sdata=")
+        content=Jsoncontent[1]
+        content=atob(content)
+       
+        var transformedString
+    if(!content.includes('"}') && content.includes('}')) //if does not contain "} =>just }
+    { 
+       transformedString=content.replace('}','"}')
+    }
+    else 
+        transformedString=content;
+
+        transformedString=transformedString.replace('{hash:','{"hash":"')
+        transformedString=transformedString.replace(',signature:','","signature":"')
+        transformedString=transformedString.replace(',publicKey:','","publicKey":"')
+        transformedString=transformedString.replace(/&#34;/g,'"')
+  
+        const parssedJson=JSON.parse(transformedString)
+ 
+
+        document.getElementById("signature").value=parssedJson.signature;
+        document.getElementById("publicKey").value=parssedJson.publicKey;
+        document.getElementById("docHash").value=parssedJson.hash;
+
+        document.getElementById("checkBtn").disabled = false;
+        
+
+      }catch(error){
+        document.getElementById("uploadPreview").src=''
+        document.getElementById("errorMessage").innerHTML ="Veuillez réesayer, le qr code fournie est erroné"
+        document.getElementById("uploadPreview").style.display = "none";
+        document.getElementById("checkBtn").disabled = true;
+
+
+       }
+        };
+
+      </script>
+
+
+
+      <!-- Page content -->
+      <div class="container-fluid mt--4">
+       
+
+        <div class="row">
+          <div class="col">
+            <div class="card shadow border-0">
+                <div>
+
+
+                <form action="/check" method="post" enctype="multipart/form-data" id="checkForm">
+                   <h2 style="padding: 10px;">Vérification de signature</h1>
+                   <!-- <%= messages.errors %> -->
+
+                      <div class="col-md-12">
+                        <div class="form-group">
+                      <label> Scanner ou charger le Qr-code sinely <small>(en cliquant sur le lien Charger une immage)</small>.</label><br>
+                        <br>
+                        </div>
+
+                        <div class="row ">
+
+                        <div class="input-group ml-1 justify-content-center" id="loading"> 
+                            <div class="spinner-border " style="width: 4rem; height: 4rem;" role="status">
+                          <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="spinner-grow" style="width: 4rem; height: 4rem;" role="status">
+                          <span class="sr-only">Loading...</span>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  <div class="row " id="qrscanner">
+
+                      <div class='col'>
+                             
+                      <div class="input-group ml-1 justify-content-center">
+                   
+                        <div id="reader" style="display: inline-block; position: relative; padding: 0px; border: 1px solid silver;">
+                          <div style="text-align: left; margin: 0px; padding: 5px; font-size: 20px; border-bottom: 1px solid rgba(192, 192, 192, 0.18);">
+                            
+                        
+                            <div id="reader__header_message" 
+                            style="display: block; font-size: 14px; padding: 2px 10px; margin-top: 4px; border-top: 1px solid rgb(246, 246, 246); 
+                            background: rgba(203, 36, 49, 0.14); color: rgb(203, 36, 49);">NotFoundError : Requested device not found</div></div>
+                            <div id="reader__scan_region" style="width: 100%; min-height: 100px; text-align: center;"><br>
+                          <img width="64" src="/js/scanner_files/camera-scan.gif" style="opacity: 0.3;"></div>
+
+                          <div id="reader__dashboard" style="width: 100%;">
+                            <div id="reader__dashboard_section" style="width: 100%; padding: 10px; text-align: left;"><div>
+                              <div id="reader__dashboard_section_csr" style="display: block;">
+                                <div style="text-align: center;"><button >Scanner Qr-Code</button></div></div>
+                                <div id="reader__dashboard_section_fsr" style="text-align: center; display: none;">
+                                  <input id="reader__filescan_input" accept="image/*" type="file" disabled="" style="width: 200px;">
+                                  
+                                </div></div>
+                                
+                                     
+                      </div> 
+                    </div>
+                  </div>
+                      </div>
+
+                    </div>
+                   
+                  
+                          
+                     <div class="col" hidden>
+                       <label>La signature éléctronique</label>
+                              <div class="form-group" style="margin-bottom: 4px;">
+                                <input class="form-control" placeholder="La signature" type="text" name="signature" id="signature" >
+
+                              </div>
+                              <div span style="    font-size: 30px;  color: #2828bb; font-weight: 900;">+</span></div>
+
+                                  <div class="form-group">
+                                    <label>La clé publique du signataire</label>
+                                    <input class="form-control" placeholder="La clé publique du signataire" type="text" name="publicKey" id="publicKey" onchange="submitform()" >
+                                    <!-- onchange="document.getElementById('checkBtn').disabled = false;"  -->
+                                    
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label>le hash du document</label>
+                                      <input class="form-control" placeholder="La clé publique du signataire" type="text" name="docHash" id="docHash" >
+                                      </div>
+
+                            </div>
+                     
+        </div>
+
+        <div  class="row col-md-3 mb-4"><label id="errorMessage" style="color:red;"></label></div>
+
+                          <div class="row">
+
+                           <div class='col-md-3 mb-4'>
+                            <button class="btn btn-icon btn-3 btn-primary"  type="submit" id="checkBtn" disabled>
+                            <span class="btn-inner--icon"><i class="ni ni-bold-right"></i></span>
+
+                              <span class="btn-inner--text">Vérifier</span>
+
+                          </button>
+                       
+                       </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </form>
+
+                  <div>
+
+
+
+                    <div class="col-md-6 mb-5" style="float:left" id="response">
+                      <% if (locals.messages && locals.messages.errors ) { %>
+                        <div class="alert alert-warning" role="alert" id="alert_back">
+                          </p>
+                          <p id = "Alert"> <%= messages.errors %>
+                          </p>
+                      </div>
+                      <% } %>
+
+                      <% if (locals.messages && locals.messages.success ) { %>
+                      <div class="alert alert-success" role="alert">
+                    <strong> <%= messages.success %></strong>
+                        <br>
+                        <!-- <strong> Document signé par <%= messages.owner %></strong> -->
+
+
+                    </div>
+
+
+                      <% } %>
+                    </div>
+
+<% if(locals.messages.success ) {%>
+  <div class="col-xl-6 order-xl-2 mb-5 mb-xl-0">
+    <div class=" card-profile shadow">
+      <div class="row justify-content-center">
+        <div class="col-lg-3 order-lg-2">
+           <div class="card-profile-image">
+            <a href="#">
+              <!-- <img src="../img/theme/team-4-800x800.jpg" class="rounded-circle"> -->
+
+              <img src="/uploads/profile/<%=locals.signerInfo.profilepic || 'default-avatar.png'%>" class="rounded-circle">
+            </a>
+          </div>
+
+        </div>
+      </div>
+      <div class="card-header bg-white border-0">
+        <div class="row align-items-center">
+          <div class="col-8">
+            <h4 class="mb-0">Signataire</h4>
+          </div>
+
+        </div>
+      </div>
+      <div class="card-body pt-0 pt-md-4">
+         <div class="row">
+          <div class="col">
+            <div class="card-profile-stats d-flex justify-content-center mt-md-4">
+
+            </div>
+          </div>
+        </div>
+        <div >
+          <div class="text-left">
+            <% if (locals.signerInfo && locals.signerInfo.verified) { %>
+              <div class="alert alert-success " role="alert" id="alert_back">
+
+                 <p style="color:white;padding:0px;margin: 0px;"><i class="ni ni-circle-08 text-white"></i>  Ce compte signataire est vérifié </p>
+              </div>
+            <% } %>
+            <% if (locals.signerInfo && ! locals.signerInfo.verified) { %>
+              <div class="alert alert-warning" role="alert" id="alert_back">
+
+                <p style="color:white;padding:0px;margin: 0px;"> <i class="ni ni-circle-08 text-white"></i>  Ce compte signataire n'est pas vérifié </p>
+              </div>
+            <% } %>
+          <center><h2> <%= locals.signerInfo && locals.signerInfo.name || 'User user' %>  </h2></center></div>
+          <br>
+          <!-- <div class="h5 font-weight-400">
+            <span class="description"> Addresse :</span><i class="ni location_pin mr-2"></i>
+          </div> -->
+          <table width='100%'>
+
+            <tr><td ><h3>Clé publique </h3></td><td style="width:250px;word-wrap:break-word;display: inline-block;"><%= locals.signerInfo && locals.signerInfo.public_key || 'User user' %></td></tr>
+            <tr><td  ><h3 > Email </h3></td><td><%= locals.signerInfo && locals.signerInfo.email || 'User user' %></td></tr>
+            <% if(typeof locals.etablissementInfo !=='undefined'){ %>
+            <tr><td ><h3 > Affiliation </h3></td>  <td>  <%= locals.etablissementInfo && locals.etablissementInfo.name || 'Non indiquée' %></td></tr>
+            <% }%>
+          </table>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+<% } %>
+
+                  </div>
+
+
+                </div>
+
+            </div>
+          </div>
+
+
+        </div>
+
+        <script type="text/javascript">
+          
+              // function submitform(){
+              //   alert('posting');
+              //   document.forms["checkForm"].submit();
+              // }
+      
+              
+      </script>
+
+        <!-- Footer -->
+        <% include ../partials/footer %>
+      </div>
+    </div>
+
+   </body>
+
+  
+  <script src="/js/scanner_files/highlight.min.js"></script>
+  <script src="/js/scanner_files/html5qrcode.min.js"></script>
+  <script>
+  function docReady(fn) {
+      // see if DOM is already available
+      if (document.readyState === "complete" || document.readyState === "interactive") {
+          // call on next available tick
+          setTimeout(fn, 1);
+      } else {
+          document.addEventListener("DOMContentLoaded", fn);
+      }
+  }
+  docReady(function() {
+    hljs.initHighlightingOnLoad();
+    // var results = document.getElementById('scanned-result');
+    var lastMessage;
+    var codesFound = 0;
+    document.getElementById("loading").style.display = "none";
+    function onScanSuccess(qrCodeMessage) {
+      if (lastMessage !== qrCodeMessage) {
+        lastMessage = qrCodeMessage;
+        ++codesFound;
+        // results.innerHTML += `<div>[${codesFound}] - ${qrCodeMessage}</div>`;
+
+        try{
+       
+        var Jsoncontent=qrCodeMessage.split("sdata=")
+        content=Jsoncontent[1]
+        content=atob(content)
+   
+        var transformedString
+    if(!content.includes('"}') && content.includes('}')) //if does not contain "} =>just }
+    { 
+  
+      transformedString=content.replace('}','"}')
+    }
+    else 
+        transformedString=content;
+
+        transformedString=transformedString.replace('{hash:','{"hash":"')
+        transformedString=transformedString.replace(',signature:','","signature":"')
+        transformedString=transformedString.replace(',publicKey:','","publicKey":"')
+        transformedString=transformedString.replace(/&#34;/g,'"')
+ 
+         const parssedJson=JSON.parse(transformedString)
+ 
+        document.getElementById("signature").value=parssedJson.signature;
+        document.getElementById("publicKey").value=parssedJson.publicKey;
+        document.getElementById("docHash").value=parssedJson.hash;
+        
+        document.getElementById("checkBtn").disabled = false;
+
+        document.getElementById("qrscanner").style.display = "none";
+        document.getElementById("loading").style.display = "block";
+        document.forms["checkForm"].submit();
+
+      }catch(error){
+        document.getElementById("uploadPreview").src=''
+        document.getElementById("errorMessage").innerHTML ="Veuillez réesayer, le qr code fournie est erroné"
+        document.getElementById("uploadPreview").style.display = "none";
+        document.getElementById("checkBtn").disabled = true;
+        //document.getElementById("errorMessage").innerHTML = 'une erreur est survenue veuillez recharger ou rescanner votre QrCode';
+
+
+
+       }
+      }
+    }
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+      "reader", { fps: 10, qrbox: 250 }, /* verbose= */ false);
+    html5QrcodeScanner.render(onScanSuccess, _ => { /** ignore error */ });
+  });
+  </script>
+      
+ 
+       
+ 
+    <!-- Include scripts -->
+    <% include ../partials/scripts %>

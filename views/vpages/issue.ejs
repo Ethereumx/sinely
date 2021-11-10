@@ -1,0 +1,361 @@
+<script src="/js/qr/qrcode.min.js"></script>
+<script src="/vendor/jquery/dist/jquery.min.js"></script> 
+
+<body>
+    <!-- Sidenav -->
+    <% include ../vpartials/sidebar %>
+    <!-- Main content -->
+    <div class="main-content">
+      <!-- Top navbar -->
+      <% include ../vpartials/navbar %>
+      <!-- Header -->
+      <% include ../vpartials/emptyheader %>
+      <!-- Page content -->
+      <div class="container-fluid mt--6">
+        <div class="row">
+          <div class="col">
+            <div class="card shadow border-0">
+                <div>
+                
+                  <h1 style="padding: 10px;">Génération de document</h1>
+
+
+      <% if (!locals.messages.success ) { %>
+ 
+  <div   class="form-group col-md-12">
+    <label>Type du document :</label>
+  <select id="documentchoice" name="documenttype" style="border : 1px #5e72e4 solid">
+  <option value="Diplome">Diplôme</option>
+  <option value="Attestation">Attestation</option>
+  <!-- <option value="Acte">Acte</option> -->
+  </select>
+  <br>
+</div>
+  
+ 
+                  <form action="/issue" method="post" enctype="multipart/form-data"  name="Diplome" id="Diplome" > 
+                    
+                      <div class="col-md-12">
+          
+
+                        <div class="form-group">
+                          <label id="message">Charger une copie du diplôme <small>(Photo ou document)</small></label><br>
+                          <small>Avec un compte premium vous pouez générér des documents sans charger une copie</small>
+                          <div class="input-group mb-3">
+                            <input class="form-control" placeholder="Document à charger sur la blockchain" type="file" 
+                            name="filetosign" id="filetosign" accept=".bmp, .doc, .pdf, .docx, .txt, .jpeg, .png, .jpg, .xls,.xlsx" required>
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+
+                          <label>Voulez vous rendre votre document accessible aux vérificateurs lors de sa vérification sur Sinely ?</label>
+
+<br>
+                          <label class="custom-toggle">
+                            <input type="checkbox" checked id="privacy" name="privacy">
+                            <span class="custom-toggle-slider rounded-circle " data-label-off="Non" data-label-on="Oui" style="color:blue;"></span>
+                        </label>
+                        </div>
+                      
+                          <div class="input-group mb-3">
+                            <input class="form-control" placeholder="Nom et prénom du titulaire" type="text" name="recipient" required>
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                            </div>
+                          </div>
+
+                          <div class="input-group mb-3">
+                            <textarea class="form-control" id="description" rows="3" placeholder="Libellé, Intitulé
+                            " name="description" maxlength="255" ></textarea>                            
+                            
+                          </div>
+                          
+
+                          <div class="form-group">
+                            <label>Date d'obtention</label>
+                            <div class="input-group input-group-alternative col2">
+                              
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                </div>
+                                <input class="form-control " placeholder="Select date" type="date"   name="attribute_2">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                          <label>Mention</label>
+                          <input class="form-control" placeholder="mention" type="text" name="attribute_3">
+                          <input class="form-control" type="hidden" value="Diplôme" name="attribute_4">
+
+                        </div>
+
+                        
+                           <div id="new_chq">  
+                             <br>
+                            <input class="form-control" type="hidden" value="1" id="total_chq">
+                           
+                          </div>
+                          <div>
+                            
+                            <br>   <br> 
+                          
+                          <button class="btn btn-icon btn-3 btn-primary"   type="submit">
+                            <span class="btn-inner--icon"><i class="ni ni-cloud-upload-96"></i></span>
+                          
+                              <span class="btn-inner--text">Uploader à la Blockchain</span>
+                          
+                          </button>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </form>
+                  
+ <!----------------------------------------------------->
+
+                    <form action="/issue" method="post" enctype="multipart/form-data" name="Attestation" id="Attestation" style="display:none">
+
+                      <div class="col-md-12">
+          
+
+                        <div class="form-group">
+                          <label id="message">Charger une copie de l'attestation (Photo ou document)</label><br>
+                          <small>Avec un compte premium vous pouez générér des documents sans charger une copie</small>
+
+                          <div class="input-group mb-3">
+                            <input class="form-control" placeholder="Document à charger sur la blockchain" type="file" name="filetosign"  id="filetosign2" 
+                            accept=".bmp, .doc, .pdf, .docx, .txt, .jpeg, .png, .jpg, .xls,.xlsx"
+                            required>
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+
+                            <label>Voulez vous rendre votre document accessible  aux vérificateurs lors de sa vérification sur Sinely ?</label>
+  
+                            <label class="custom-toggle">
+                              <input type="checkbox" checked>
+                              <span class="custom-toggle-slider rounded-circle" data-label-off="Non" data-label-on="Oui"></span>
+                          </label>
+                          </div>
+                        </div>
+                      
+                          <div class="input-group mb-3">
+                            <input class="form-control" placeholder="Nom et prénom du titulaire" type="text" name="recipient" required>
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                            </div>
+                          </div>
+
+                          <div class="input-group mb-3">
+                            <input class="form-control" id="description2" rows="3" placeholder="Intitulé
+                            " name="description" required/>                            
+                            
+                          </div>
+                          
+
+                          <div class="form-group">
+                            <label>Date de délivrance</label>
+                            <div class="input-group input-group-alternative col2">
+                              
+                              <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                              </div>
+                              <input class="form-control " placeholder="Select date" type="date"  name="attribute_2" required>
+                              <input class="form-control" type="hidden"  value="Attestation" name="attribute_4">
+
+                          </div>
+                      </div>
+                       
+                        
+                           <div id="new_chq">  
+                             <br>
+                            <input class="form-control" type="hidden" value="1" id="total_chq2">
+                           
+                          </div>
+                          <div>
+                            
+                            <br>   <br> 
+                            <button class="btn btn-icon btn-3 btn-primary"   type="submit">
+                              <span class="btn-inner--icon"><i class="ni ni-cloud-upload-96"></i></span>
+                            
+                                <span class="btn-inner--text">Uploader à la Blockchain</span>
+                            
+                            </button>
+                        </div>
+                        </div>
+                      </div>
+                    
+                    </form>
+                    <% } %>
+
+<!------------------------------------------------------>
+
+                    <form name="Acte" id="Acte" style="display:none">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                           <label> More document types will be available soon ;)</label>
+                      </div>
+                      </div>
+                    <!---- THIS IS FORM 3---->
+                    </form>
+             
+                  
+                  <div class="row">
+                    <% if (locals.messages && locals.messages.success ) { %>
+                    <div class="col-xl-4" style="float:right">
+                      <label>Signature (Sinely QR code) </label>
+                      <img  id="imageQ" width="100%">
+ 
+                    </div>
+                    <% } %>
+                    <div class="col-xl-8" style="float:left">
+                      <% if (locals.messages && locals.messages.errors ) { %>
+                        <div class="alert alert-warning" role="alert" id="alert_back">
+                          </p>
+                          <p id = "Alert"> <%= messages.errors %>
+                          </p>
+                      </div>
+                      <% } %>
+              
+                      <% if (locals.messages && locals.messages.success ) { %>
+                      <div class="alert alert-success" role="alert">
+                    <strong> <%= messages.success %></strong><br>
+                                        <br>
+                        <p id="phash"><strong>L'identifiant de vérification:</strong><br> <%= messages.hash %></p>
+                        <br>
+                        <p id="psignature"><strong>E-Signature:</strong><br><%= messages.signature %></p>
+                        <br>
+                        <p id="ppublickey"><strong>Votre clé publique:</strong><br><%= messages.publicKey %></p>
+                         <br><p><strong>Lien de partage:</strong><br><span >
+                           <a href="/file/<%= messages.hash || '' %>">
+                            <%= messages.url %>/file/<%= messages.hash || '' %>
+                        </a></span></p> 
+ 
+
+                          <script type="text/javascript">
+                  var opts = {
+                  errorCorrectionLevel: 'H',
+                  type: 'image/jpeg',
+                  quality: 0.3,
+                  margin: 1,
+                  color: {
+                    dark:"#00000000",
+                    light:"#FFFFFFFF"
+                  }
+                }
+                
+                QRCode.toDataURL("<%=messages.url%>/file/sdata=<%=messages.jsonSignature%>", opts, function (err, url) {
+                  if (err) throw err
+                
+                  var img = document.getElementById('imageQ')
+                  img.src = url
+                })
+                        </script> 
+                    </div>
+                       
+              
+                      <% } %>
+                    </div>          
+              
+                  </div>
+
+
+                </div> 
+
+            </div>
+          </div>
+        </div>
+
+       
+  
+
+ <script type="text/javascript">
+                        
+     $("#documentchoice").on("change", function() {
+      var c = $('#documentchoice').find(":selected").text();
+      if(c=="Diplôme")
+           {
+             $("#Diplome").show();
+             $("#Attestation").hide();
+             $("#Acte").hide();
+           }
+    if(c=="Attestation")
+     {        
+             $("#Diplome").hide();
+             $("#Attestation").show();
+             $("#Acte").hide();
+      }         
+      if(c=="Acte")
+     {        
+             $("#Diplome").hide();
+             $("#Attestation").hide();
+             $("#Acte").show();
+      }                
+                    })
+
+   function addattributes(){
+      var new_chq_no = parseInt($('#total_chq').val())+1;
+      if(new_chq_no<5){
+      var numbers=['first','second','third'];
+      var new_input="<div class='input-group mb-3'><input class='form-control' placeholder='"+numbers[new_chq_no-2]+" Attribute' type='text' id='attribute_"+new_chq_no+"' name='attribute_"+new_chq_no+"'></div>";
+      $('#new_chq').append(new_input);
+      $('#total_chq').val(new_chq_no)
+      }
+
+    }
+    function removeattributes(){
+      var last_chq_no = $('#total_chq').val();
+      if(last_chq_no>1){
+        $('#new_'+last_chq_no).remove();
+        $('#total_chq').val(last_chq_no-1);
+      }
+    }
+ </script>
+   <script>
+ 
+  $('#filetosign').on('change', function() {
+   var numb = $(this)[0].files[0].size/1024/1024;
+  numb = numb.toFixed(2);
+   
+
+  if(numb > 10){
+  alert('Le fichier chargé dépasse la limite de 10 Mega');
+  var file = document.getElementById("filetosign");
+      file.value = file.defaultValue;
+  }   
+     });
+   
+     $('#filetosign2').on('change', function() {
+   var numb = $(this)[0].files[0].size/1024/1024;
+  numb = numb.toFixed(2);
+   
+
+  if(numb > 10){
+  alert('Le fichier chargé dépasse la limite de 10 Mega');
+  var file = document.getElementById("filetosign2");
+      file.value = file.defaultValue;
+  }   
+     });
+  </script>
+        <!-- Footer -->
+        <% include ../vpartials/footer %>
+        <script src="/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
+
+      </div>
+    </div>
+
+
+    <!-- Include scripts -->
+    <% include ../vpartials/scripts %>
+   
+  </body>
+  

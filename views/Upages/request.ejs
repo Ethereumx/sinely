@@ -1,0 +1,120 @@
+<script src="/js/qr/qrcode.min.js"></script>
+<script src="/js/jquery-3.5.1.min.js"></script>
+
+<body>
+    <!-- Sidenav -->
+    <% include ../partials/sidebar %>
+    <!-- Main content -->
+    <div class="main-content">
+      <!-- Top navbar -->
+      <% include ../partials/navbar %>
+      <!-- Header -->
+      <% include ../partials/emptyheader %>
+      <!-- Page content -->
+      <div class="container-fluid mt--7">
+        <div class="row">
+          <div class="col">
+            <div class="card shadow border-0">
+                <div>
+     
+
+
+                <form action="/request" method="post" enctype="multipart/form-data"   > 
+                    
+                      <div class="col-md-12">
+          
+
+                        <div class="form-group">
+                          <br>
+                          <h1>Nouvelle demande</h1>
+                          <label id="message">Charger une copie du document (Photo ou document) à cértifier</label>
+                          <div class="input-group mb-3">
+                            <input class="form-control" placeholder="Document à charger sur la blockchain" type="file" name="filetosign" required>
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                            </div>
+                          </div>
+
+                    
+                      
+                          <div class="input-group mb-3">
+                            <input class="form-control" placeholder="Email du signataire" type="email" name="destination" required>
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                            </div>
+                          </div>
+
+                          <div class="input-group mb-3">
+                            <textarea class="form-control" id="message" rows="3" placeholder="Message
+                            " name="message" maxlength="255" ></textarea>                            
+                            
+                          </div>
+                          
+ 
+                          <div>
+                            
+                            <br>   <br> 
+                          
+                          <button class="btn btn-icon btn-3 btn-primary"   type="submit">
+                            <span class="btn-inner--icon"><i class="ni ni-bold-left"></i></span>
+                          
+                              <span class="btn-inner--text">Demander Signature</span>
+                          
+                          </button>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </form>
+                  
+ 
+
+                  
+                  <div>
+                    
+                    <div class="col-md-9" style="float:left">
+                      <% if (locals.messages && locals.messages.errors ) { %>
+                        <div class="alert alert-warning" role="alert" id="alert_back">
+                          </p>
+                          <p id = "Alert"> <%= messages.errors %>
+                          </p>
+                      </div>
+                      <% } %>
+              
+                      <% if (locals.messages && locals.messages.success ) { %>
+                      <div class="alert alert-success" role="alert">
+                    <strong> <%= messages.success %></strong>
+                                        <br>
+                        <!-- <p id="phash"><strong>File hash: <%= messages.hash %></strong></p> -->
+                      
+                        
+                    </div>
+                       
+              
+                      <% } %>
+                    </div>          
+              
+                  </div>
+
+
+                </div> 
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <% include ../partials/footer %>
+ 
+
+      </div>
+    </div>
+
+
+    <!-- Include scripts -->
+    <% include ../partials/scripts %>
+  </body>
+  

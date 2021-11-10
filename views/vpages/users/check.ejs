@@ -1,0 +1,183 @@
+<body>
+  <!-- Sidenav -->
+  <% include ../../vpartials/sidebar %>
+  <!-- Main content -->
+  <div class="main-content">
+    <!-- Top navbar -->
+    <% include ../../vpartials/navbar %>
+    <!-- Header -->
+    <% include ../../vpartials/emptyheader %>
+    <!-- Page content -->
+  
+      <div class="container-fluid mt--6">
+  <div class="row">
+
+  <% if(userDetails) { %> 
+
+    <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+      <div class="card card-profile shadow">
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+            <div class="card-profile-image">
+              <a href="#">
+                <img src="/uploads/profile/<%=locals.userDetails.profilepic || 'default-avatar.png'%>" >
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+          <div class="d-flex justify-content-between">
+            <!-- <a href="/request" class="btn btn-sm btn-info mr-4">Request</a>
+            <a href="/sign" class="btn btn-sm btn-default float-right">Sign</a> -->
+          </div>
+        </div>
+        <div class="card-body "style="padding-top:70px;">
+
+          <div class="text-center">
+            <% if (userDetails && verified) { %>
+              <div class="alert alert-success " role="alert" id="alert_back">
+
+              <p style="color:white"> <i class="ni ni-circle-08 text-white"></i>  Ce compte est vérifié </p>
+              </div>
+            <% } %>
+            <% if (userDetails && ! verified) { %>
+              <div class="alert alert-warning " role="alert" id="alert_back">
+
+              <p style="color:white"> <i class="ni ni-circle-08 text-white"></i>  Ce compte n'est pas vérifié </p>
+              </div>
+            <% } %>
+            <h3>
+              <%= userDetails && userDetails.name || 'user not found' %>
+            </h3>
+            <h3>
+              <%= userDetails && userDetails.email || 'user not found' %>
+            </h3>
+            <% if (userDetails && userDetails.b_address) { %>
+              <div class="alert alert-default  " role="alert" id="alert_back">
+              <label>Identifiant Sinely sur Blockchain</label>
+              <p style="color:white"> <i class="ni ni-circle-08 text-white"></i>  <%= locals.userDetails && locals.userDetails.b_address || 'undefined' %> </p>
+              </div>
+            <% } %>
+            <% if (userDetails && userDetails.public_key) { %>
+              <div class="alert alert-default  " role="alert" id="alert_back">
+              <label>Clé publique :</label>
+              <p style="color:white"> <i class="ni ni-circle-08 text-white"></i> <%= locals.userDetails && locals.userDetails.public_key || 'undefined' %> </p>
+              </div>
+            <% } %>
+            <div>
+             </div>
+        
+          </div>
+        </div>
+      </div>
+    </div>
+<%} if(typeof userDetails =='undefined') {%> 
+
+  <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+    <div class="card card-profile shadow">
+      <div class="row justify-content-center">
+        <div class="col-lg-3 order-lg-2">
+          <div class="card-profile-image">
+            <a href="#">
+              <img src="../img/theme/team-4-800x800.jpg" class="rounded-circle">
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+        <div class="d-flex justify-content-between">
+          <a href="/request" class="btn btn-sm btn-info mr-4">Request</a>
+          <a href="/sign" class="btn btn-sm btn-default float-right">Sign</a>
+        </div>
+      </div>
+      <div class="card-body "style="padding-top:70px;">
+
+        <div class="alert alert-warning " role="alert" id="alert_back">
+
+          <p style="color:white"> <i class="ni ni-circle-08 text-white"></i>  Aucun compte ne correspond à votre recherche</p>
+          </div>
+
+        <div>
+        </div>
+   
+     </div>
+   </div>
+ </div>
+
+  <% }%>
+
+    <div class="col">
+
+  
+
+<!-- <a href="#!" class="btn btn-info">Editer profile</a> -->
+
+      <div class="card bg-secondary shadow">
+          <div class="card shadow border-0">
+              <div>
+  
+                <h1 style="padding: 10px;">Vérification de l'identité</h1>
+
+                <form action="/checkuser" method="post" > 
+                  
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Pour vérifier l'identité d'un utilisateur Sinely, veuillez fournir la clé publique de l'utilisateur
+                        </label>
+                        <div class="input-group mb-3">
+                          <input class="form-control" placeholder="Exapmle: 0xf8f8ae6389f35d2e5807258520d6fa96f67d7546df1b0ad7e94043d087c84368cec84066086873b36b0d0d82511853c3b3cdc0304dabeda4d28ec8dedee0b3e1",
+                          " type="text" name="publicKey" >
+                          <div class="input-group-append">
+                            <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                          </div>
+                        </div>
+                      
+                        <label>Ou son ID Sinely</label>
+                        <div class="input-group mb-3">
+                          <input class="form-control" placeholder="Exapmle: 0xf8f8ae6389f33cdc0304dabeda4d28ec8dedee0b3e1",
+                          " type="text" name="userId" >
+                          <div class="input-group-append">
+                            <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                          </div>
+                        </div>
+
+                        <button class="btn btn-icon btn-3 btn-primary"   type="submit">
+                          <span class="btn-inner--icon"><i class="ni ni-bold-up"></i></span>
+                        
+                            <span class="btn-inner--text">Vérifier</span>
+                        
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                </form>
+                
+                <div>
+                  
+                  <div class="col-md-9" style="float:left">
+                    <% if (locals.messages && locals.messages.errors ) { %>
+                      <div class="alert alert-warning" role="alert" id="alert_back">
+                        </p>
+                        <p id = "Alert"> <%= messages.errors %>
+                        </p>
+                    </div>
+                    <% } %>
+            
+                    
+                  </div>          
+            
+                </div>
+
+
+              </div> 
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <% include ../../vpartials/footer %>
+</div>
+    <!-- Include scripts -->
+    <% include ../../vpartials/scripts %>

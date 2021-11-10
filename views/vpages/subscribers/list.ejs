@@ -1,0 +1,86 @@
+<body>
+  <!-- Sidenav -->
+  <% include ../../vpartials/sidebar %>
+  <!-- Main content -->
+  <div class="main-content">
+    <!-- Top navbar -->
+    <% include ../../vpartials/navbar %>
+    <!-- Header -->
+    <% include ../../vpartials/admin/header %>
+    <!-- Page content -->
+    <div class="container-fluid mt--7">
+      <div class="row">
+        <div class="col">
+          <div class="card shadow border-0">
+              <div>
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Email</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Comment</th>
+                      <th scope="col"></th>
+                     
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for(let i =0; i<subscribers.length; i++){ %>
+                    <tr>
+                   
+                      <td>
+                        <%= subscribers[i].email %>
+                      </td>
+                    
+                      <!-- <td>
+                        <div class="avatar-group">
+                     
+                    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">
+                            <img alt="Image placeholder" src="img/theme/team-1-800x800.jpg" class="rounded-circle">
+                          </a>  
+            
+                        </div>
+                      </td> -->
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <span class="mr-2"><%= (new Date(subscribers[i].subcribed_at)).toLocaleDateString('fr-FR'); %></span>
+                        
+                          <div>
+  
+                          </div>
+                        </div>
+                      </td>
+                      <td><%= subscribers[i].comment %></td>
+                    
+                      
+                      <td class="text-right">
+                        <div class="dropdown">
+                          <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                            <!-- <a class="dropdown-item" href="users/validate/<%= subscribers[i].id %>">Validate</a>
+                            <a class="dropdown-item" href="users/delete/<%= subscribers[i].id %>">Delete</a> -->
+                            <!-- <a class="dropdown-item" href="/users/edit/<%= subscribers[i].id %>">Edit</a> -->
+
+                          </div>
+                        </div>
+                      </td> 
+                    </tr>
+                    
+                    <% } %>
+               </tbody>
+                </table>
+              </div> 
+
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+      <% include ../../vpartials/footer %>
+    </div>
+  </div>
+
+
+  <!-- Include scripts -->
+  <% include ../../vpartials/scripts %>
+</body>

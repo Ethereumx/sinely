@@ -1,0 +1,165 @@
+<style>
+  .bg-gradient-default {
+background: linear-gradient(87deg,#5e72e4 0,#5e72e4 100%)!important;
+}
+</style>
+<script src="/vendor/jquery/dist/jquery.min.js"></script>
+<body class="bg-default">
+  <div class="main-content  mask bg-gradient-default">
+    <!-- Navbar -->
+    <% include ../vpartials/auth/navbar %>
+    <!-- Header -->
+    <% include ../vpartials/auth/header %>
+    <!-- Page content -->
+    <div class="container mt--8 pb-5">
+      <!-- Table -->
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+          <div class="card bg-secondary shadow border-0">
+           
+
+            <div class="card-body px-lg-5 py-lg-5">
+ 
+              <form role="form" action="register" method="POST">
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    <input class="form-control" name="name" placeholder="Nom et prénom" type="text" required>
+                  </div>
+                  <% if (locals.messages && messages.errors && messages.errors.name) { %>
+                    <strong class="invalid-feedback" style="display: block"><%= messages.errors.name %></strong>
+                  <% } %>
+                </div>
+                <div class="form-group">
+                  <div class="input-group input-group-alternative mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                    </div>
+                    <input class="form-control" name="username" placeholder="Email" type="email" required>
+                  </div>
+                  <% if (locals.messages && messages.errors && messages.errors.username) { %>
+                    <strong class="invalid-feedback" style="display: block"><%= messages.errors.username %></strong>
+                  <% } %>
+                </div>
+                <div class="form-group">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                    </div>
+                    <input class="form-control" name="password" placeholder="Mot de passe" type="password" required>
+                  </div>
+                  <% if (locals.messages && messages.errors && messages.errors.password) { %>
+                    <strong class="invalid-feedback" style="display: block"><%= messages.errors.password %></strong>
+                  <% } %>
+                </div>
+              
+
+                <div class="card-header bg-transparent ">
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="comptetype" class="custom-control-input" id="compte1" checked=true  type="radio">
+                    <label class="custom-control-label" for="compte1">Compte individuel</label>
+                  </div>
+                  <div class="custom-control custom-radio mb-3">
+                    <input name="comptetype" class="custom-control-input" id="compte2" type="radio" disabled>
+                    <label class="custom-control-label" for="compte2">Compte institutionel</label>
+                  </div>
+                  
+                </div>
+
+                <div class="form-group mt-4" id="etablissementdiv" style="display:none">
+                  <div   class="form-group col-md-12">
+                    <label>Votre Etablissement</label>
+                    <select id="etabchoice" style="border : 1px #5e72e4 solid" >
+                      <option value="Autre"></option>
+
+                      <% if ( locals.organismesList) {  %>
+                        <label>Affiliation:</label>
+      
+                       <% for(let i =0;  i<locals.organismesList.length; i++) {%>
+      
+                    <option value="<%= locals.organismesList[i].name%>"><%= locals.organismesList[i].name%></option>
+      
+                      <% } } %>
+
+                   <option value="Autre">Autre</option>
+                    </select>
+                    <br>
+                  </div>
+                  <div class="input-group input-group-alternative mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-building"></i></span>
+                    </div>
+                    <input class="form-control" name="etablissement" id="etablissement" placeholder="Etablissement" type="text" >
+                  </div>
+                  
+                    <strong class="invalid-feedback" style="display: block"> Ce type de compte ne sera activé qu'après vérification de votre identité et votre affilition par Sinely. Si aucune affiliation n'est choisie, Sinely vous créera un compte individuel</strong>
+                  
+                </div>
+
+                <div class="row my-4">
+                  <div class="col-12">
+                    <div class="custom-control custom-control-alternative custom-checkbox">
+                      <input class="custom-control-input" id="customCheckRegister" type="checkbox" required>
+                      <label class="custom-control-label" for="customCheckRegister">
+                        <span class="text-muted">J'accepte <a href="/chart">la charte Sinely</a></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <% if (locals.messages && locals.messages.databaseError) { %>
+                  <strong class="invalid-feedback" style="display: block"><%= messages.databaseError %></strong>
+                <% } %>
+
+                <div class="text-center">
+                  <button class="btn btn-primary mt-4">Créer compte</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+  //$("#compte2").prop("checked", true);
+  $("#etablissement").hide();
+  $("#etabchoice").on("change", function() 
+          {
+            var e = document.getElementById("etabchoice");
+        
+
+              var v = e.value;
+              if(v =="Autre"){
+          
+                $("#etablissement").show();
+
+              }
+              else{
+                $('#etablissement').val(v);
+
+                $("#etablissement").hide();
+
+
+              }
+            
+                  
+                   })
+            $("#compte2").on("change", function() 
+                  {  
+                    $("#etablissementdiv").show();
+                          
+                          })
+            $("#compte1").on("change", function() 
+                  {  
+                    $("#etablissementdiv").hide();
+                          
+                   })
+                  </script>
+  <!-- Footer -->
+  <% include ../vpartials/auth/footer %>
+
+  <!-- Include scripts -->
+  <% include ../vpartials/scripts %>
+</body>

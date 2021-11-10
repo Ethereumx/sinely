@@ -1,0 +1,72 @@
+
+<nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+  <div class="container-fluid">
+    <!-- Brand -->
+    
+    <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="/">Dashboard</a>
+ 
+
+ <script>
+   function alertMsg(){
+    alert('Changement de réseau est réservé aux comptes premium. Veuillez nous contacter à contact@sinely.com pour en savoir plus.')  
+    let element = document.getElementById("network");
+    element.value = 'sinely'; 
+  }
+
+ </script>
+ <style>.avatar-sm {
+  font-size: .875rem;
+  width: 56px;
+  height: 56px;
+}</style>
+     <!-- Navbar links -->
+     <ul class="navbar-nav align-items-center  ml-md-auto ">
+
+      <li class="nav-item d-xl-none">
+        <!-- Sidenav toggler -->
+        <div class="pr-3 sidenav-toggler sidenav-toggler-dark" data-action="sidenav-pin" data-target="#sidenav-main">
+          <div class="sidenav-toggler-inner">
+            <i class="sidenav-toggler-line"></i>
+            <i class="sidenav-toggler-line"></i>
+            <i class="sidenav-toggler-line"></i>
+          </div>
+        </div>
+      </li>
+      
+       <li>    <div class="  form-inline mr-3 d-none d-md-flex ml-lg-auto">
+        <!-- <label style="color:rgb(255, 255, 254);">Connecté à :</label> -->
+        <span class="badge badge-dot mr-4">
+          <i class="bg-success"></i> 
+        </span>
+        <select id="network" class="form-control form-control-sm" onchange="alertMsg()">
+          <option value="sinely"><span class="badge badge-dot mr-4">
+            <i class="bg-success" ></i> Sinely Blockchain
+          </span>
+         </option>
+         <option style="color:red;">Ethereum Mainnet (Premium)</option>
+         <option>Ethereum Testnet (Premium)</option>
+         <option>Bitcoin (Premium)</option>
+        </select>
+  
+      </div></li>
+    
+     
+     
+    </ul>
+    <ul class="navbar-nav align-items-center d-none d-md-flex">
+      <li class="nav-item dropdown">
+        <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div class="media align-items-center">
+            <span class="avatar avatar-sm rounded-circle">
+              <img alt="Image placeholder" src="/uploads/profile/<%=locals.userInfo && locals.userInfo.profilepic || 'default-avatar.png'%>" width="100%" height="100%">
+            </span>
+            <div class="media-body ml-2 d-none d-lg-block">
+              <span class="mb-0 text-sm font-weight-bold"><%= locals.userInfo && locals.userInfo.name || '' %></span>
+            </div>
+          </div>
+        </a>
+        <% include ./dropdown %>
+      </li>
+    </ul>
+  </div>
+</nav>

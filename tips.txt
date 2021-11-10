@@ -1,0 +1,54 @@
+devide page into big colons for content
+
+ <div class="container-fluid mt--6">
+        
+   
+      <div class="row">
+        <div class="col-xl-8">
+          <div class="card">
+           
+          </div>
+        </div>
+        <div class="col-xl-4">
+          <div class="card">
+          
+          </div>
+        </div>
+      </div>
+
+
+#to remove containers think of removing volumes too
+docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
+docker volume rm $(docker volume ls -q)
+
+0- check using pm2
+1- npm run to call a plugin
+2- knex manage migrations :
+    generate a new migration : npm run knex migrate:make migration_name
+    in up function put your schema http://perkframework.com/v1/guides/database-migrations-knex.html
+    then apply using : knex migrate:latest
+    all knex commands: https://devhints.io/knex
+
+ 
+3- midelwares : we can define n midelware in an express get or post before the callback https://dev.to/geoff/writing-asyncawait-middleware-in-express-6i0 
+
+4- dont forget to add routes to index.js for each new get and post will be defined in the sub routes
+5- to return all 
+  let xfiles= await knex('files').select()
+    .where('owner_id', id);
+
+  return xfiles;
+
+6- to return only 1
+  const [user] = await knex('users')
+    .where({ id })
+    .update({
+      name,
+      email,
+      updated_at: new Date(),
+    })
+    .returning(['email', 'name','public_key','b_address' ]);
+  return user;
+}
+7-Userinfo is used to identify the logged user !!!=> req.session.userInfo 

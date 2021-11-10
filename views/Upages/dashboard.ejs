@@ -1,0 +1,281 @@
+<script src="/js/qr/qrcode.min.js"></script> 
+<script src="../vendor/jquery/dist/jquery.min.js"></script> 
+ 
+
+<body>
+  <!-- Sidenav -->
+  <% include ../partials/sidebar %>
+  <!-- Main content -->
+  <div class="main-content">
+     <% include ../partials/navbar %>
+     <% include ../partials/header %>
+    <div class="container-fluid mt--7">
+      <!-- Table -->
+      <script src="/js/canvas2image.js"></script>
+   
+
+      <div class="row">
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <h3 class="mb-0">Mes documents</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-items-center "><!--table-flush-->
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Nom du fichier</th>
+                    <th scope="col">MetaData</th>
+                    <th scope="col">L'identifiant <br>de vérification</th>
+                    <th scope="col">Lien de partage</th>
+                 
+                    <th scope="col" style="
+                    padding: 15px;
+                    margin: 0;
+                " >Date de signature</th>
+                <th>Partage</th>
+                   </tr>
+
+                </thead>
+                <tbody>
+                  <% for(let i =0; i<files.length; i++){ 
+                    
+                    %>
+                  <tr>
+                    <th scope="row">
+                      <div class="media align-items-center">
+                       
+                        <div class="media-body">
+                          <span class="mb-0 text-sm"><a href="<%= files[i].path %>" target="_blank"><%= files[i].file_name %></a></span>
+                        </div>
+                      </div>
+                    </th>
+                    <td style="    white-space: -o-pre-wrap; 
+                    word-wrap: break-word;
+                    white-space: pre-wrap; 
+                    white-space: -moz-pre-wrap; 
+                    white-space: -pre-wrap; ">
+                      <div style="
+                      display: table-cell;
+                      word-wrap: break-word; 
+                      display: block;
+                  "> <%= files[i].description %></div>
+                     
+                    </td>
+                    <td style="
+                    padding: 5px;
+                    margin: 0;
+                ">
+                       <a href="/file/<%= files[i].hash %>" data-toggle="modal" data-target="#urlModal<%= i%>">
+                        <span class="badge badge-dot mr-4">
+                          Afficher
+                          
+                      </span></a>
+                   
+                    </td>
+
+
+                    <td style="
+                    padding: 5px;
+                    margin: 0;    padding-top: 10px;
+                    padding-bottom: 10px;">
+                      <div class="avatar-group"> 
+                        <a href="#">
+                          <!-- onclick="prepDownload(this, document.getElementById('imageQ<%= i%>'), 'QrCode<%= i%>.png')" -->
+                          <div class="container">
+ 
+                            <img  id="image<%= i%>"  data-toggle="modal" data-target="#canvasSigModal<%= i%>" width="150px">
+                           </a>    
+                         <a href="#" download="imageQ<%= i%>.png">
+                             <i class="fas fa-download"  ></i>
+                         </div>
+                       </a>
+                      </div>
+
+                    </td>
+                    <td  >
+                      <div class="d-flex align-items-center">
+                        <span class="mr-2"><%= (new Date(files[i].signed_at)).toLocaleDateString('fr-FR'); %></span>
+                      
+                        <div>
+
+                        </div>
+                      </div>
+                    </td>
+
+<td>
+  <div class="share-btn" data-url="<%=url%>/file/sdata=<%= files[i].qrcode%>" data-title="J'ai certifié un nouveau fichier sur la Blockchain" data-desc="share sinely">
+ <a  data-id="fb" style="color:white;"><img src="../img/theme/fb.png" width="40px"></a>
+  <a   data-id="in"><img src="../img/theme/ln.png"  width="40px"></a>
+   <a  data-id="tw" style="color:white;"><img src="../img/theme/tw.png"  width="40px"></a>
+   <!-- <a class="btn-WhatsApp" data-id="wa" style="color:white;"><i class="fab fa-WhatsApp"></i> </a> -->
+ 
+</ul>
+</div>
+</td>
+                    <!-- Modal -->
+ 
+
+<div class="modal fade" id="canvasSigModal<%= i%>" tabindex="-1" role="dialog" aria-labelledby="canvasSigModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="canvasSigModalLabel">Signature du Document</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body " style="margin-left: 5%;">
+     
+        <canvas   id="canvasSigPop<%= i%>">
+          <span class="btn-inner--icon">
+          <i class="ni ni-cloud-download-95 text-white"></i></span>
+        </canvas> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+       </div>
+     
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="urlModal<%= i%>" tabindex="-1" role="dialog" aria-labelledby="urlModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="urlModalLabel">Identifiant unique du document (Hash)</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body " style="margin-left: 3%;">
+     
+      <span><%= files[i].hash %></span>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+     
+    </div>
+  </div>
+</div>
+                  </tr>
+                  <script type="text/javascript">
+                  var opts = {
+                  errorCorrectionLevel: 'H',
+                  type: 'image/jpeg',
+                  quality: 0.3,
+                  margin: 1,
+                  color: {
+                    dark:"#00000000",
+                    light:"#FFFFFFFF"
+                  }
+                }
+                
+                QRCode.toDataURL("<%=url%>/file/sdata=<%= files[i].qrcode%>", opts, function (err, url) {
+                  if (err) throw err
+                
+                  var img = document.getElementById('image'+'<%=i%>')
+                  img.src = url
+                })
+ 
+                    QRCode.toCanvas(document.getElementById('canvasSigPop'+'<%=i%>'), 
+                    "<%=url%>/file/sdata=<%=files[i].qrcode%>")
+                </script>
+                  <% } %>
+             </tbody>
+              </table>
+              
+            </div>
+            
+            <div class="card-footer py-4">
+              <nav aria-label="...">
+                <ul class="pagination justify-content-end mb-0">
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">
+                      <i class="fas fa-angle-left"></i>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                  </li>
+                  <%
+             
+                  for(let i =0; i<=NumberPaginationPages; i++){ 
+                  
+                   if( i==page) { %>
+                  <li class="page-item active">
+                    <a class="page-link" href="/<%=i%>"><%=i%></a>
+                  </li>
+                  <% 
+                    } else {
+                    %>
+                   <li class="page-item">
+                     <a class="page-link" href="/<%=i%>"><%= i%></a>
+                    </li> 
+                <% } 
+               } %>
+
+                  <li class="page-item">
+                    <a class="page-link" href="#">
+                      <i class="fas fa-angle-right"></i>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      <image id="theimage" style="visibility: hidden;"></image>
+
+ 
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalDashboard" tabindex="-1" role="dialog" aria-labelledby="canvasModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="canvasModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <canvas id="canvas_popup0"   ></canvas>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* .share-btn > a {
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: 12px;
+  font-family: Verdana, Arial;
+  color:white;
+} */
+.share-btn > a:hover {
+  cursor: pointer;
+}</style>
+      <!-- Footer -->
+      <% include ../partials/footer %>
+    </div>
+  </div>
+
+  <!-- Include scripts -->
+  <% include ../partials/scripts %>
+  <script src="/js/share-buttons.js"></script>
+
+</body>
+

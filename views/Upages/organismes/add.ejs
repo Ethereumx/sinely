@@ -1,0 +1,65 @@
+<body>
+    <!-- Sidenav -->
+    <% include ../../partials/sidebar %>
+    <!-- Main content -->
+    <div class="main-content">
+      <!-- Top navbar -->
+      <% include ../../partials/navbar %>
+      <!-- Header -->
+      <% include ../../partials/admin/header %>
+      <!-- Page content -->
+      <div class="container-fluid mt--7">
+        <div class="row">
+          <div class="col">
+            <div class="card shadow border-0">
+                <div style="
+                padding: 20px;
+            ">
+                  <form action="/organismes/add" method="post" name="addOrg" id="addOrg" > 
+
+          
+
+                    <div class="form-group">
+                      <label id="message">New Etab/Org</label>
+                      <div class="input-group mb-3">
+                        <input class="form-control" placeholder="Etab name" type="text" name="name" required>
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                        </div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <textarea class="form-control" maxlength="255"  id="details" rows="3" placeholder="Details
+                        " name="details"></textarea>                            
+                        
+                      </div>
+                      <div class="input-group mb-3">
+                        <input class="form-control" placeholder="sigle name" type="text" name="sigle" required>
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                        </div>
+                      </div>
+                  </div>
+
+
+                  <button class="btn btn-icon btn-3 btn-primary"   type="submit">
+                    <span class="btn-inner--icon"><i class="ni ni-bag-17"></i></span>
+                  
+                      <span class="btn-inner--text">New org</span>
+                  
+                  </button>
+                  </form>
+                </div> 
+
+            </div>
+          </div>
+        </div>
+        <!-- Footer -->
+        <% include ../../partials/footer %>
+      </div>
+    </div>
+
+
+    <!-- Include scripts -->
+    <% include ../../partials/scripts %>
+  </body>
+  

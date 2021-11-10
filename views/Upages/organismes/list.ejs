@@ -1,0 +1,85 @@
+<body>
+    <!-- Sidenav -->
+    <% include ../../partials/sidebar %>
+    <!-- Main content -->
+    <div class="main-content">
+      <!-- Top navbar -->
+      <% include ../../partials/navbar %>
+      <!-- Header -->
+      <% include ../../partials/admin/header %>
+      <!-- Page content -->
+      <div class="container-fluid mt--7">
+
+        <div class="row">
+         <div style="padding-bottom: 20px;">
+          <a href="/organismes/add" class="btn btn-info">New organisme</a>
+          
+        </div>
+          <div class="col">
+            <div class="card shadow border-0">
+                <div>
+                  <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col">Etab name</th>
+                        <th scope="col">details</th>
+                        <th scope="col">sigle </th>
+                   
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% for(let i =0; i<organismesList.length; i++){ %>
+                      <tr>
+                        <th scope="row">
+                          <div class="media align-items-center">
+                            <a href="#" class="avatar rounded-circle mr-3">
+                              <!-- <img alt="Image placeholder" src="img/theme/bootstrap.jpg"> -->
+                              <i class="ni ni-paper-diploma"></i>
+                            </a>
+                            <div class="media-body">
+                              <span class="mb-0 text-sm"><a href="<%= organismesList[i].path %>"><%= organismesList[i].name %></a></span>
+                            </div>
+                          </div>
+                        </th>
+                        <td>
+                          <%= organismesList[i].details %>
+                        </td>
+                        <td>
+                          <span class="badge badge-dot mr-4">
+                            <i class="bg-warning"></i> <%= organismesList[i].sigle %>
+                          </span>
+                        </td>
+                
+                        <!-- <td class="text-right">
+                          <div class="dropdown">
+                            <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                              <a class="dropdown-item" href="#">Action</a>
+                              <a class="dropdown-item" href="#">Another action</a>
+                              <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                          </div>
+                        </td> -->
+                      </tr>
+                      
+                      <% } %>
+                 </tbody>
+                  </table>
+                </div> 
+
+            </div>
+          </div>
+        </div>
+        <!-- Footer -->
+        <% include ../../partials/footer %>
+      </div>
+    </div>
+
+
+    <!-- Include scripts -->
+    <% include ../../partials/scripts %>
+  </body>
+  

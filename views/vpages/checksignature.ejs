@@ -1,0 +1,331 @@
+<script src="/js/qr/qrcode.min.js"></script>
+
+<body>
+    <!-- Sidenav -->
+    <% include ../vpartials/sidebar %>
+    <!-- Main content -->
+    <div class="main-content">
+      <!-- Top navbar -->
+      <% include ../vpartials/navbar %>
+      <!-- Header -->
+      <% include ../vpartials/header2 %>
+      <!-- <script type="text/javascript" src="/js/zxing-browser.min.js"></script> -->
+      <script type="text/javascript" src="/js/zxing-browser.min.js"></script>
+
+      
+       <script type="text/javascript">
+       async function decodeQr() {
+
+        document.getElementById("signature").value= '';
+        document.getElementById("publicKey").value= '';
+        document.getElementById("errorMessage").innerHTML = '';
+       // document.getElementById("response").style.display = "none";
+
+        try{
+        const codeReader = new ZXingBrowser.BrowserQRCodeReader();
+        var oFReader = new FileReader();
+        const img= document.getElementById("qrCodeFile").files[0];
+        const r=oFReader.readAsDataURL(img);
+
+
+        oFReader.onload = function (oFREvent) {
+ 
+            document.getElementById("uploadPreview").src = oFREvent.target.result;
+            document.getElementById("uploadPreview").style.display = "block";
+
+
+        };
+
+
+        const sourceElem = document.querySelector('#uploadPreview');
+        const resultImage = await codeReader.decodeFromImageElement(sourceElem);
+        var content=resultImage.text;
+        
+        var Jsoncontent=content.split("sdata=")
+        content=Jsoncontent[1]
+        content=atob(content)
+       
+        var transformedString
+    if(!content.includes('"}') && content.includes('}')) //if does not contain "} =>just }
+    { 
+       transformedString=content.replace('}','"}')
+    }
+    else 
+        transformedString=content;
+
+        transformedString=transformedString.replace('{hash:','{"hash":"')
+        transformedString=transformedString.replace(',signature:','","signature":"')
+        transformedString=transformedString.replace(',publicKey:','","publicKey":"')
+        transformedString=transformedString.replace(/&#34;/g,'"')
+  
+        const parssedJson=JSON.parse(transformedString)
+ 
+
+        document.getElementById("signature").value=parssedJson.signature;
+        document.getElementById("publicKey").value=parssedJson.publicKey;
+        document.getElementById("checkBtn").disabled = false;
+        
+
+      }catch(error){
+        document.getElementById("uploadPreview").src=''
+        document.getElementById("errorMessage").innerHTML ="Veuillez réesayer, le qr code fournie est erroné"
+        document.getElementById("uploadPreview").style.display = "none";
+        document.getElementById("checkBtn").disabled = true;
+
+
+       }
+        };
+
+      </script>
+
+
+
+      <!-- Page content -->
+      <div class="container-fluid mt--6">
+        <div class="row">
+          <div class="col">
+            <div class="card shadow border-0">
+                <div>
+
+
+                <form action="/checksignature" method="post" enctype="multipart/form-data">
+                   <h1 style="padding: 10px;">Vérification de signature</h1>
+                   <!-- <%= messages.errors %> -->
+
+                      <div class="col-md-12">
+                        <div class="form-group">
+                      <label>Pour vérifier une signature sans utiliser le Qr-Code sinely, vous devez fournir la signature générée et la clé publique du signataire. </label><br>
+                        <br>
+                        </div>
+                  <div class="row">
+                   
+                
+                          
+                     <div class="col" >
+                       <label>La signature éléctronique</label>
+                              <div class="form-group" style="margin-bottom: 4px;">
+                                <input class="form-control" placeholder="La signature" type="text" name="signature" id="signature" >
+
+                              </div>
+                              <div span style="    font-size: 30px;  color: #2828bb; font-weight: 900;">+</span></div>
+
+                                  <div class="form-group">
+                                    <label>La clé publique du signataire</label>
+                                    <input class="form-control" placeholder="La clé publique du signataire" type="text" name="publicKey" id="publicKey" onchange="document.getElementById('checkBtn').disabled = false;" >
+                                    </div>
+
+                            </div>
+                     
+                  
+                    
+                  </div>
+
+                    
+<br>
+                          <div class="row">
+                           <div class='col-md-3 mb-4'>
+                            <button class="btn btn-icon btn-3 btn-primary"  type="submit" id="checkBtn" disabled>
+                            <span class="btn-inner--icon"><i class="ni ni-bold-right"></i></span>
+
+                              <span class="btn-inner--text">Vérifier</span>
+
+                          </button>
+                       
+                       </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </form>
+
+                  <div>
+
+
+
+                    <div class="col-md-6 mb-5" style="float:left" id="response">
+                      <% if (locals.messages && locals.messages.errors ) { %>
+                        <div class="alert alert-warning" role="alert" id="alert_back">
+                          </p>
+                          <p id = "Alert"> <%= messages.errors %>
+                          </p>
+                      </div>
+                      <% } %>
+
+                      <% if (locals.messages && locals.messages.success ) { %>
+                      <div class="alert alert-success" role="alert">
+                    <strong> <%= messages.success %></strong>
+                        <br>
+                        <!-- <strong> Document signé par <%= messages.owner %></strong> -->
+
+
+                    </div>
+
+
+                      <% } %>
+                    </div>
+
+<% if(locals.messages.success ) {%>
+  <div class="col-xl-6 order-xl-2 mb-5 mb-xl-0">
+    <div class=" card-profile shadow">
+      <div class="row justify-content-center">
+        <div class="col-lg-3 order-lg-2">
+           <div class="card-profile-image">
+            <a href="#">
+              <!-- <img src="../img/theme/team-4-800x800.jpg" class="rounded-circle"> -->
+
+              <img src="/uploads/profile/<%=locals.signerInfo.profilepic || 'default-avatar.png'%>" class="rounded-circle">
+            </a>
+          </div>
+
+        </div>
+      </div>
+      <div class="card-header bg-white border-0">
+        <div class="row align-items-center">
+          <div class="col-8">
+            <h4 class="mb-0">Signataire</h4>
+          </div>
+
+        </div>
+      </div>
+      <div class="card-body pt-0 pt-md-4">
+         <div class="row">
+          <div class="col">
+            <div class="card-profile-stats d-flex justify-content-center mt-md-4">
+
+            </div>
+          </div>
+        </div>
+        <div >
+          <div class="text-left">
+            <% if (locals.signerInfo && locals.signerInfo.verified) { %>
+              <div class="alert alert-success " role="alert" id="alert_back">
+
+                 <p style="color:white;padding:0px;margin: 0px;"><i class="ni ni-circle-08 text-white"></i>  Ce compte signataire est vérifié </p>
+              </div>
+            <% } %>
+            <% if (locals.signerInfo && ! locals.signerInfo.verified) { %>
+              <div class="alert alert-warning" role="alert" id="alert_back">
+
+                <p style="color:white;padding:0px;margin: 0px;"> <i class="ni ni-circle-08 text-white"></i>  Ce compte signataire n'est pas vérifié </p>
+              </div>
+            <% } %>
+          <center><h2> <%= locals.signerInfo && locals.signerInfo.name || 'User user' %>  </h2></center></div>
+          <br>
+          <!-- <div class="h5 font-weight-400">
+            <span class="description"> Addresse :</span><i class="ni location_pin mr-2"></i>
+          </div> -->
+          <table width='100%'>
+
+            <tr><td ><h3>Clé publique </h3></td><td style="width:250px;word-wrap:break-word;display: inline-block;"><%= locals.signerInfo && locals.signerInfo.public_key || 'User user' %></td></tr>
+            <tr><td  ><h3 > Email </h3></td><td><%= locals.signerInfo && locals.signerInfo.email || 'User user' %></td></tr>
+            <% if(typeof locals.etablissementInfo !=='undefined'){ %>
+            <tr><td ><h3 > Affiliation </h3></td>  <td>  <%= locals.etablissementInfo && locals.etablissementInfo.name || 'Non indiquée' %></td></tr>
+            <% }%>
+          </table>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+<% } %>
+
+                  </div>
+
+
+                </div>
+
+            </div>
+          </div>
+
+
+        </div>
+
+
+        <!-- Footer -->
+        <% include ../vpartials/footer %>
+      </div>
+    </div>
+
+
+    <!-- Include scripts -->
+    <% include ../vpartials/scripts %>
+  </body>
+
+  <script src="/js/scanner_files/highlight.min.js"></script>
+  <script src="/js/scanner_files/html5qrcode.min.js"></script>
+  <script>
+  function docReady(fn) {
+      // see if DOM is already available
+      if (document.readyState === "complete" || document.readyState === "interactive") {
+          // call on next available tick
+          setTimeout(fn, 1);
+      } else {
+          document.addEventListener("DOMContentLoaded", fn);
+      }
+  }
+  docReady(function() {
+    hljs.initHighlightingOnLoad();
+    // var results = document.getElementById('scanned-result');
+    var lastMessage;
+    var codesFound = 0;
+    function onScanSuccess(qrCodeMessage) {
+      if (lastMessage !== qrCodeMessage) {
+        lastMessage = qrCodeMessage;
+        ++codesFound;
+        // results.innerHTML += `<div>[${codesFound}] - ${qrCodeMessage}</div>`;
+
+        try{
+       
+        var Jsoncontent=qrCodeMessage.split("sdata=")
+        content=Jsoncontent[1]
+        content=atob(content)
+   
+        var transformedString
+    if(!content.includes('"}') && content.includes('}')) //if does not contain "} =>just }
+    { 
+  
+      transformedString=content.replace('}','"}')
+    }
+    else 
+        transformedString=content;
+
+        transformedString=transformedString.replace('{hash:','{"hash":"')
+        transformedString=transformedString.replace(',signature:','","signature":"')
+        transformedString=transformedString.replace(',publicKey:','","publicKey":"')
+        transformedString=transformedString.replace(/&#34;/g,'"')
+ 
+         const parssedJson=JSON.parse(transformedString)
+ 
+        document.getElementById("signature").value=parssedJson.signature;
+        document.getElementById("publicKey").value=parssedJson.publicKey;
+        document.getElementById("checkBtn").disabled = false;
+        
+
+      }catch(error){
+        document.getElementById("uploadPreview").src=''
+        document.getElementById("errorMessage").innerHTML ="Veuillez réesayer, le qr code fournie est erroné"
+        document.getElementById("uploadPreview").style.display = "none";
+        document.getElementById("checkBtn").disabled = true;
+
+
+       }
+      }
+    }
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+      "reader", { fps: 10, qrbox: 250 }, /* verbose= */ false);
+    html5QrcodeScanner.render(onScanSuccess, _ => { /** ignore error */ });
+  });
+  </script>
+      
+     <footer class="site-footer">
+   
+      <script src="/js/scanner_files/anchorize.js"></script>
+   </footer>
+      <script src="/js/scanner_files/instantpage.js" type="module"></script>
+      <script async="" src="/js/scanner_files/js"></script>
+       
+   
+  

@@ -1,0 +1,24 @@
+version: '3'
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: 'sinely'
+      POSTGRES_PASSWORD: 'sinely123'
+      POSTGRES_DB: 'sinely'
+    ports:
+      - 5433:5432
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+  haproxy:
+    image: haproxy:1.9-alpine
+    ports:
+      - 81:80
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+volumes:
+  postgresql-data:

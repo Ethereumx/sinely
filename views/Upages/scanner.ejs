@@ -1,0 +1,254 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+
+ 
+    <link rel="canonical" href="https://www.creative-tim.com/learning-lab/bootstrap/sidebar/argon-dashboard">
+    <link rel="stylesheet" href="https://demos.creative-tim.com/argon-design-system-pro/assets/css/nucleo-icons.css" type="text/css">
+    <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/argon.min.css?v=1.0.0" type="text/css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link href="https://demos.creative-tim.com/argon-design-system-pro/assets/css/nucleo-icons.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <!-- Anti-flicker snippet (recommended)  -->
+    <style>
+      .async-hide {
+        opacity: 0 !important
+      }
+    </style>
+ 
+    <!-- end Analytics-Optimize Snippet -->
+  
+    <!-- End Google Tag Manager -->
+  </head>
+ <body data-instant-allow-query-string="" data-instant-allow-external-links="">
+ 
+   <main class="default-content" aria-label="Content">
+
+
+    <nav class="sidenav navbar navbar-vertical navbar-expand-xs navbar-light bg-white position-relative" id="sidenav-main">
+      <div class="scroll-wrapper" style="position: relative;"><div class="scroll-content">
+        <!-- Brand -->
+        <div class="sidenav-header  d-flex  align-items-center">
+          <a class="navbar-brand" href="javascript:;">
+            <img src="https://demos.creative-tim.com/argon-dashboard/assets/img/brand/blue.png" class="navbar-brand-img" alt="...">
+          </a>
+          <div class=" ml-auto ">
+            <!-- Sidenav toggler -->
+            <div class="sidenav-toggler d-none d-xl-block active" data-action="sidenav-unpin" data-target="#sidenav-main">
+              <div class="sidenav-toggler-inner">
+                <i class="sidenav-toggler-line"></i>
+                <i class="sidenav-toggler-line"></i>
+                <i class="sidenav-toggler-line"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="navbar-inner">
+          <!-- Collapse -->
+          <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+            <!-- Nav items -->
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" href="#navbar-dashboards" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-dashboards">
+                  <i class="ni ni-shop text-primary"></i>
+                  <span class="nav-link-text">Dashboards</span>
+                </a>
+                <!-- <div class="collapse show" id="navbar-dashboards">
+                  <ul class="nav nav-sm flex-column">
+
+                    <li class="nav-item">
+                      <a href="javascript:;" class="nav-link">
+                        <span class="sidenav-mini-icon"> D </span>
+                        <span class="sidenav-normal"> Dashboard </span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="javascript:;" class="nav-link">
+                        <span class="sidenav-mini-icon"> A </span>
+                        <span class="sidenav-normal"> Alternative </span>
+                      </a>
+                    </li>
+                    
+                  </ul>
+                </div> -->
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-dashboards">
+                  <i class="ni ni-tv-2 text-default"></i> Dashboard
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/sign" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-dashboards">
+                  <i class="ni ni-key-25 text-black"></i> Sign document
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/issue" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-dashboards">
+
+                  <i class="ni ni ni-paper-diploma  text-primary"></i> Issue document
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/check" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-dashboards">
+                  <i class="ni ni-check-bold text-green"></i> Check signature
+                </a>
+              </li>
+      
+              <li class="nav-item">
+                <a class="nav-link active" href="/checkfile" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-dashboards">
+                  <i class="ni ni-sound-wave text-default"></i> Check file
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/request" data-toggle="collapse" aria-expanded="true" aria-controls="navbar-dashboards">
+                  <i class="ni ni-spaceship text-red"></i> Request signature
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/requests" data-toggle="collapse"  aria-expanded="true" aria-controls="navbar-dashboards">
+                  <i class="ni ni-atom text-purple"></i> All requests
+                </a>
+              </li>
+           
+           <% if(locals.userInfo && locals.userInfo.type=='admin') { %>
+              <li class="nav-item">
+                <a class="nav-link" href="/users">
+                  <i class="ni ni-ruler-pencil text-red"></i> Pending users
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/users/list">
+                  <i class="ni ni-ruler-pencil text-red"></i> All users
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/organismes">
+                  <i class="ni ni-spaceship text-red"></i> orgs
+                </a>
+              </li>
+            
+            <% } %></ul>
+            <!-- Divider -->
+       <hr class="my-3">
+             <h6 class="navbar-heading text-muted">Premium services</h6>
+             <ul class="navbar-nav mb-md-3">
+              <li class="nav-item">
+                <a class="nav-link active" href="/" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-dashboards">
+                  <i class="ni ni-ruler-pencil text-yellow"></i> Signature manuelle
+                </a>
+              </li>
+            </ul>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+     <div class="wrapper-content">
+       <style>
+#reader {
+    width: 640px;
+}
+@media(max-width: 600px) {
+	#reader {
+		width: 300px;
+	}
+}
+.empty {
+    display: block;
+    width: 100%;
+    height: 20px;
+}
+</style>
+<link rel="stylesheet" href="/js/scanner_files/default.min.css">
+ <div class="container">
+	<div class="row">
+		<div class="col-md-12" style="text-align: center;margin-bottom: 20px;">
+			<div id="reader" style="display: inline-block; position: relative; padding: 0px; border: 1px solid silver;">
+        <div style="text-align: left; margin: 0px; padding: 5px; font-size: 20px; border-bottom: 1px solid rgba(192, 192, 192, 0.18);">
+          
+       
+           <div id="reader__header_message" 
+           style="display: block; font-size: 14px; padding: 2px 10px; margin-top: 4px; border-top: 1px solid rgb(246, 246, 246); 
+           background: rgba(203, 36, 49, 0.14); color: rgb(203, 36, 49);">NotFoundError : Requested device not found</div></div>
+           <div id="reader__scan_region" style="width: 100%; min-height: 100px; text-align: center;"><br>
+        <img width="64" src="/js/scanner_files/camera-scan.gif" style="opacity: 0.3;"></div>
+        <div id="reader__dashboard" style="width: 100%;">
+          <div id="reader__dashboard_section" style="width: 100%; padding: 10px; text-align: left;"><div>
+            <div id="reader__dashboard_section_csr" style="display: block;">
+              <div style="text-align: center;"><button >Scanner Qr-Code</button></div></div>
+              <div id="reader__dashboard_section_fsr" style="text-align: center; display: none;">
+                <input id="reader__filescan_input" accept="image/*" type="file" disabled="" style="width: 200px;">
+                <span>&nbsp; Select Image</span></div></div>
+              
+                  
+                  </div></div></div>
+			<div class="empty"></div>
+			<div id="scanned-result"></div>
+		</div>
+	</div>
+</div>
+ 
+ 
+<script src="/js/scanner_files/highlight.min.js"></script>
+<script src="/js/scanner_files/html5qrcode.min.js"></script>
+<script>
+function docReady(fn) {
+    // see if DOM is already available
+    if (document.readyState === "complete" || document.readyState === "interactive") {
+        // call on next available tick
+        setTimeout(fn, 1);
+    } else {
+        document.addEventListener("DOMContentLoaded", fn);
+    }
+}
+docReady(function() {
+	hljs.initHighlightingOnLoad();
+	var results = document.getElementById('scanned-result');
+	var lastMessage;
+	var codesFound = 0;
+	function onScanSuccess(qrCodeMessage) {
+		if (lastMessage !== qrCodeMessage) {
+			lastMessage = qrCodeMessage;
+			++codesFound;
+			results.innerHTML += `<div>[${codesFound}] - ${qrCodeMessage}</div>`;
+		}
+	}
+	var html5QrcodeScanner = new Html5QrcodeScanner(
+		"reader", { fps: 10, qrbox: 250 }, /* verbose= */ false);
+	html5QrcodeScanner.render(onScanSuccess, _ => { /** ignore error */ });
+});
+</script>
+     </div>
+   </main>
+   <footer class="site-footer">
+ 
+    <script src="/js/scanner_files/anchorize.js"></script>
+ </footer>
+    <script src="/js/scanner_files/instantpage.js" type="module"></script>
+    <script async="" src="/js/scanner_files/js"></script>
+     
+ 
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/js-cookie/js.cookie.js" type="text/javascript"></script>
+    <script src="https://demos.creative-tim.com/argon-design-system-pro/assets/demo/src/application.js" type="text/javascript"></script>
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/anchor-js/anchor.min.js" type="text/javascript"></script>
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/clipboard/dist/clipboard.min.js" type="text/javascript"></script>
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/prismjs/prism.js" type="text/javascript"></script>
+    <script src="https://demos.creative-tim.com/argon-design-system-pro/assets/demo/docs.min.js" type="text/javascript"></script>
+    <script src="https://demos.creative-tim.com/argon-design-system-pro/assets/demo/vendor/holder.min.js" type="text/javascript"></script>
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/vendor/moment.min.js" type="text/javascript"></script>
+    <script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/js/argon.min.js" type="text/javascript"></script>
+     <script>
+      Holder.addTheme('gray', {
+        bg: '#777',
+        fg: 'rgba(255,255,255,.75)',
+        font: 'Helvetica',
+        fontweight: 'normal'
+      })
+    </script>
+</body></html>

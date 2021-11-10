@@ -1,0 +1,241 @@
+<script src="/js/qr/qrcode.min.js"></script>
+
+<body>
+  <!-- Sidenav -->
+  <% if(locals.userInfo  && locals.userInfo.name){ %>
+  <% include ../../vpartials/sidebar %>
+  <!-- Main content -->
+  <div class="main-content">
+    <!-- Top navbar -->
+    <% include ../../vpartials/navbar %>
+    <% } 
+    else {
+      %>
+      <div class=" bg-gradient-default " >   
+         <% include ./auth/navbar %>
+      </div>
+  
+      <!-- Header -->
+      <%}%>
+    <!-- Header -->
+     <!-- Page content -->
+    <div class="container-fluid mt--7" style='padding-top: 150px;''>
+      <div class="row">
+        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+          <div class="card card-profile shadow">
+            <div class="row justify-content-center">
+              <div class="col-lg-3 order-lg-2">
+                 <div class="card-profile-image">
+                  <a href="#">
+                    <!-- <img src="../img/theme/team-4-800x800.jpg" class="rounded-circle"> -->
+
+                    <img src="/uploads/profile/<%=locals.signerInfo.profilepic || 'default-avatar.png'%>" class="rounded-circle">
+
+                  </a>
+                </div> 
+                
+              </div>
+            </div>
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h4 class="mb-0">Signataire</h4>
+                </div>
+               
+              </div>
+            </div>
+            <div class="card-body pt-0 pt-md-4">
+               <div class="row">
+                <div class="col">
+                  <div class="card-profile-stats d-flex justify-content-center mt-md-4">
+                   
+                  </div>
+                </div>
+              </div>  
+              <div >
+                <div class="text-left">
+                  <% if (locals.signerInfo && locals.signerInfo.verified) { %>
+                    <div class="alert alert-success " role="alert" id="alert_back">
+  
+                       <p style="color:white;padding:0px;margin: 0px;">
+                        <i class="ni ni-circle-08 text-white"></i>  Ce compte signataire est vérifié </p>
+                    </div>
+                  <% } %>
+                  <% if (locals.signerInfo && ! locals.signerInfo.verified) { %>
+                    <div class="alert alert-warning" role="alert" id="alert_back">
+  
+                      <p style="color:white;padding:0px;margin: 0px;"> <i class="ni ni-circle-08 text-white"></i>  Ce compte signataire n'est pas vérifié </p>
+                    </div>
+                  <% } %>
+                <center><h2>
+                  <%= locals.signerInfo && locals.signerInfo.name || 'User user' %> 
+                </h2></center></div> 
+                <br>
+                <!-- <div class="h5 font-weight-400">
+                  <span class="description"> Addresse :</span><i class="ni location_pin mr-2"></i>
+                </div> -->
+                <table width='100%'>
+                  <tr><td ><h3>Clé publique </h3></td><td style="width:250px;word-wrap:break-word;display: inline-block;"><%= locals.signerInfo && locals.signerInfo.public_key || 'User user' %></td></tr>
+                  <tr><td  ><h3 > Email </h3></td><td><%= locals.signerInfo && locals.signerInfo.email || 'User user' %></td></tr>
+                  <% if(typeof locals.etablissementInfo !=='undefined'){ %>
+                  <tr><td ><h3 > Affiliation </h3></td>  <td>  <%= locals.etablissementInfo && locals.etablissementInfo.name || 'Non indiquée' %></td></tr>
+                  <% }%>
+                </table>
+           
+              
+               
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-8 order-xl-1">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0"> Les informations du document</h3>
+                </div>
+                
+              </div>
+            </div>
+            <% if(locals.fileInfo.type=='signed') {%>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-11 col-md-10">
+                  <% if(locals.fileInfo.privacy=='public') {%>
+                    <p class="display-5 ">  <a href="<%=  locals.fileInfo.path %>">Télécharger Le document</a></p>
+
+                    <% } %>
+                  <p class=" mt-0 mb-4 display-5 "><h3>Description</h3>   <%= locals.fileInfo.description   %></p>
+                  <p class="mt-0 mb-4 display-5 " ><h3>Signé le </h3> <%= locals.fileInfo.signed_at  || 'undefined' %></p>
+                  
+                    <table>
+                      <tr><td><label><h3>E-Signature </h3> </label></td>
+                      <td><canvas id="canvas" width="200" style="height: 200px; width: 200px;" height="200"></canvas></td>
+                    </tr>
+                  </table>
+               
+                </div>
+              </div>
+            </div>
+<% } %>
+<% if(locals.fileInfo.third_attribut=='Diplôme' ) {%>
+
+  <div class="card-body">
+    <div class="row">
+      <!-- <% if(locals.fileInfo.privacy=='public') {%>
+        <p class="display-5 ">  <a href="<%=  locals.fileInfo.path %>">Télécharger Le document</a></p>
+
+        <% } %> -->
+      <table class="col-lg-11 col-md-10">
+        <tr>
+        <td>   <h3>Type du document </h3> </td>
+        <td> <%=  locals.fileInfo.third_attribut || 'Document' %></td>
+        </tr>
+        <tr>             
+
+      </tr>
+      <% if(locals.fileInfo.description) {%>
+      <tr>
+        <td><h3>Description</h3>   </td>
+        <td><%= locals.fileInfo.description %></td>
+      </tr>
+      <% } %>
+      <tr> 
+        <td><h3>Déliveré à </h3> </td>
+        <td><%= locals.fileInfo.recipient  || 'Non indiqué' %></td>
+      </tr>
+       
+      <tr> 
+        <td><h3>Signé le</h3> </td>
+        <td> <%= locals.fileInfo.signed_at  || 'Non indiqué' %></td>
+      </tr>
+      <tr> 
+        <td><h3>Déliveré le </h3></td>
+        <td> <%= locals.fileInfo.first_attribut  || 'Non indiqué' %></td>
+      </tr>
+      <% if(locals.fileInfo.second_attribut) {%>
+      <tr>
+        <td><h3>Mention </h3> </td>
+        <td><%= locals.fileInfo.second_attribut  || 'Non indiqué' %></td>
+      </tr>
+      <% } %>
+        <tr>
+         <td><label><h3>Signature</h3> </label></td>
+         <td>  
+          <canvas id="canvas" width="200" style="height: 200px; width: 200px;" height="200"></canvas>
+        </td>
+        
+        </tr>
+
+</table>
+    </div>
+  </div>
+  <% } %>
+
+
+            <% if(locals.fileInfo.third_attribut=='Attestation' ) {%>
+
+              <div class="card-body">
+                <div class="row">
+                  <table class="col-lg-11 col-md-10">
+                    <tr>
+                    <td>   Type du document : </td>
+                    <td> <%=  locals.fileInfo.third_attribut || 'Document' %></td>
+                    </tr>
+              
+                  <tr>
+                    <td>Description :  </td>
+                    <td><%= locals.fileInfo.description %></td>
+                  </tr>
+                  <tr> 
+                    <td>Déliveré pour : </td>
+                    <td><%= locals.fileInfo.recipient  || 'undefined' %></td>
+                  </tr>
+                  <tr> 
+                    <td>Signé le :</td>
+                    <td> <%= locals.fileInfo.signed_at  || 'undefined' %></td>
+                  </tr>
+                  <tr> 
+                    <td>Déliveré le :</td>
+                    <td> <%= locals.fileInfo.first_attribut  || 'undefined' %></td>
+                  </tr>
+                     
+                    <tr>
+                     
+                    
+                    </tr>
+                    <tr>
+                      <td><label>Signature </label></td>
+                      <td>  
+                       <canvas id="canvas" width="200" style="height: 200px; width: 200px;" height="200"></canvas>
+                     </td>
+                     
+                     </tr>
+             
+                    </table>
+                </div>
+              </div>
+              <% } %>
+  
+          </div>
+        </div>
+        <script>
+         function prepDownload(a, canvas, name) {
+          a.download = name
+          a.href = canvas.toDataURL()
+        }
+          QRCode.toCanvas(document.getElementById('canvas'), '<%=url%>/file/sdata=<%=jsonSignature%>')
+   
+        </script> 
+      </div>
+
+      
+      <!-- Footer -->
+      <% include ../../vpartials/footer %>
+    </div>
+  </div>
+
+  <!-- Include scripts -->
+  <!-- <% include ../../vpartials/file/scripts %> -->
+</body>

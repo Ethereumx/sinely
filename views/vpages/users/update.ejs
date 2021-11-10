@@ -1,0 +1,95 @@
+<body>
+    <!-- Sidenav -->
+    <% include ../../vpartials/sidebar %>
+    <!-- Main content -->
+    <div class="main-content">
+      <!-- Top navbar -->
+      <% include ../../vpartials/navbar %>
+      <!-- Header -->
+      <% include ../../vpartials/admin/header %>
+      <!-- Page content -->
+      <div class="container-fluid mt--7">
+        <div class="row">
+          <div class="col">
+            <div class="card shadow border-0">
+                <div style="
+                padding: 20px;
+            ">
+                  <form action="/users/update" method="post" name="addOrg" id="addOrg" > 
+
+          
+
+                    <div class="form-group">
+                      <div class="input-group mb-3">
+                        
+                        <input class="form-control"  type="hidden" name="id"  value="<%= user && user.id %>" required>
+                     
+                      </div>
+                      <label>Name</label>
+                      <div class="input-group mb-3">
+                        <input class="form-control"  type="text" name="name"  value="<%= user && user.name %>" required>
+                     
+                      </div>
+                      <label>status(pending/active)</label>
+
+                      <div class="input-group mb-3">
+                        <input class="form-control"  type="text" name="status"  value="<%= user && user.status %>" required>
+                      
+                      </div>
+                      <label>Etablissement (Key) <%= user.etablissement %></label>
+                      <div class="input-group mb-3">
+                        <select name="etablissement" id="etablissement" >
+                          <% for(let i =0; i<etablist.length; i++){ %>
+                            
+                                                   
+                          <option value="<%= etablist[i].etabId %>" <%  if(   etablist[i].etabId ==user.etablissement ){ %>selected<%} %>> <%= etablist[i].name%>  </option>
+                          <% 
+                          }%>
+                          <option value='' > </option>
+
+                          </select>                       
+                      </div>
+
+                      <label>Claimed Entreprise</label>
+                      <div class="input-group mb-3">
+                        <input class="form-control"  type="text" name="claim"  value="<%= user && user.claim %>" >
+                      
+                      </div> 
+                      
+
+                      <label>verified (boolean)</label>
+                      <div class="input-group mb-3">
+                        <input class="form-control"  type="text" name="verified"  value="<%= user && user.verified %>" required>
+                      
+                      </div>
+                    
+                      <label>type (normal/etablissement/admin)</label>
+                      <div class="input-group mb-3">
+                        <input class="form-control"  type="text" name="type"  value="<%= user && user.type %>">
+                      
+                      </div>
+                    </div>
+
+
+                  <button class="btn btn-icon btn-3 btn-primary"   type="submit">
+                    <span class="btn-inner--icon"><i class="ni ni-bag-17"></i></span>
+                  
+                      <span class="btn-inner--text">update</span>
+                  
+                  </button>
+                  </form>
+                </div> 
+
+            </div>
+          </div>
+        </div>
+        <!-- Footer -->
+        <% include ../../vpartials/footer %>
+      </div>
+    </div>
+
+
+    <!-- Include scripts -->
+    <% include ../../vpartials/scripts %>
+  </body>
+  
