@@ -1,7 +1,4 @@
 
- ## Doc
- https://argon-dashboard-pro-laravel.creative-tim.com/docs/foundation/grid.html
-
 ## Installation
 
 1. You need `Node.js` (at least 10.x version) installed on your machine, if you don't have it, you should install it - download [link](https://nodejs.org/en/download/)
@@ -82,7 +79,6 @@ you can update pm2 using `NODE_ENV=production pm2 restart npm_app_name --update-
 ## Compiling for production
 
 `gulp build` you can list all tasts using `gulp --tasks`
-https://demos.creative-tim.com/impact-design-system-pro/docs/getting-started/build-tools/
 
 /dist The shortform dist stands for distributable and refers to a directory where files will be stored that can be directly used by others without the need to compile or minify the source code that is being reused.
 Something similar applies to JavaScript modules. Usually JavaScript code is minified and obfuscated for use in production. Therefore, if you want to distribute a JavaScript library, it's advisable to put the plain (not minified) source code into a src (source) directory and the minified and obfuscated version into the dist (distributable) directoy, so others can grab the minified version right away without having to minify it themselves.
@@ -96,8 +92,8 @@ if you get after `npm run dev`
 sol  > echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 
 ## tricks
-you can run pm2 using 'npm run pm2 ls'
-to remove containers think of removing volumes too docker volume rm $(docker volume ls -q)
+- you can run pm2 using 'npm run pm2 ls'
+- To remove containers think of removing volumes too docker volume rm $(docker volume ls -q)
 ## Usage
 
 Register a user or login using :`admin@Sinely.com`:`Sinely@1*2*3` and start testing the preset (make sure to run the migrations and seeds for these credentials to be available).
