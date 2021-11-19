@@ -197,6 +197,18 @@ router.get('/uploadX/:fileName', function(req, res, next) {
   });
 });
 
+router.get('/test',(req,res)=>{
+
+    res.render('viewer');
+});
+
+router.get('/getfile/:filename',(req,res)=>{
+
+  let file = req.params.filename || '';
+  console.log('param file',file);
+  let root = path.join(__dirname, '../uploads');
+  res.sendFile(root+'/'+file);
+})
  
 mountRegisterRoutes(router);
 mountLoginRoutes(router);

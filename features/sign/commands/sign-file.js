@@ -3,7 +3,7 @@ const { USER_NOT_FOUND_ERROR_MESSAGE,SIGNATURE_ERROR_MESSAGE,FILE_NOT_FOUND_ERRO
 const { getUser } = require('../repository');
 
 async function signFile(req, res) {
- 
+  
   let file = {};
   let user = {};
   const {
@@ -33,6 +33,8 @@ async function signFile(req, res) {
     file = await registerRepo.signFile(getKey.private_key,req.file.path,id,
       req.file.originalname, req.body.description, statusFile,
       req.user.public_key); 
+      console.log('file',req.file,file);
+      //res.redirect('viewer',{file:req.file.filename});
   
   } catch (error) {
     console.log("ERROR", error)
@@ -55,6 +57,8 @@ async function signFile(req, res) {
   req.session.messages = { errors: databaseError  };
   res.redirect('/sign');
   }
+
 }
+
 
 module.exports = signFile;
