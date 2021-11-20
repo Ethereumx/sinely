@@ -2,8 +2,8 @@
 ## Installation
 
 1. You need `Node.js` (at least 10.x version) installed on your machine, if you don't have it, you should install it - download [link](https://nodejs.org/en/download/)
-2. [Clone the project from github](https://github.com/bellaj/argon)  
-3. `cd` to your downloaded Argon app
+2. Clone the repo
+3. `cd` to the new `/sinely` folder
 4. Install necessary dependencies:
     - **Via node `npm` package manager** - Run `npm install` on the project root
     - **Via `yarn` package manager** - Run `yarn install` on the project root
@@ -57,7 +57,7 @@ REDIS_PASSWORD=
 
 1. For database tables structure, in the project root run: `npm run knex migrate:latest` or `yarn knex migrate:latest` if you are using `yarn` as the default package manager
 2. To create a default user, run: `npm run knex seed:run` or `yarn knex seed:run` if you are using `yarn` as the default package manager
-3. create folder `uploads` 
+3. create folder `uploads`
 
 4. For production the previous commands should be run while Env is set to production otherwise it will use dev as default
 5. If in prod run gulp build then => copy public/css/* into dist /css
@@ -89,11 +89,15 @@ Note: Some developers use names like target, build or dest (destination) instead
 if you get after `npm run dev`
 > [1] (node:7240) UnhandledPromiseRejectionWarning: Error: ENOSPC: System limit for number of file watchers reached, watch '/home/user/aragon/public/vendor/@fortawesome/fontawesome-free/css/fontawesome.min.css'
 
-sol  > echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+sol  `echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`
+
+Also think of running :
+
+ `npm run pm2 start 0  --watch --ignore-watch=“./uploads”`
 
 ## tricks
 - you can run pm2 using 'npm run pm2 ls'
-- To remove containers think of removing volumes too docker volume rm $(docker volume ls -q)
+- To remove containers think of removing volumes too docker volume rm $(docker volume ls -q) !!! THIS to use only in dev this cmd will remove all volumes of all containers!!
 ## Usage
 
 Register a user or login using :`admin@Sinely.com`:`Sinely@1*2*3` and start testing the preset (make sure to run the migrations and seeds for these credentials to be available).
