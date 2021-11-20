@@ -22,7 +22,6 @@ cb(null, Date.now() +'-'+file.originalname)
 
 const requestBodyValidation = require('./commands/verify-request-body');
 const signFile = require('./commands/sign-file');
-const PDFViewer = require('./commands/PDFViewer');
 const loadPage = require('./commands/load-page');
 var upload = multer({ 
   storage: storage ,
@@ -43,7 +42,7 @@ module.exports = router => {
   upload.single('filetosign'),
   afterUpload,
   wrap(requestBodyValidation),
-  wrap(PDFViewer)
+  wrap(signFile)
   );
   router.post('/sign2/:filename',(req,res)=>{
     
