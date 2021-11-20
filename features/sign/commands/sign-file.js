@@ -33,8 +33,6 @@ async function signFile(req, res) {
     file = await registerRepo.signFile(getKey.private_key,req.file.path,id,
       req.file.originalname, req.body.description, statusFile,
       req.user.public_key); 
-      console.log('file',req.file,file);
-      //res.redirect('viewer',{file:req.file.filename});
   
   } catch (error) {
     console.log("ERROR", error)

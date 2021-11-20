@@ -27,7 +27,7 @@ const mountConfirmRoutes = require('../features/confirm/routes');
 const mountrequestDemoRoutes = require('../features/requestdemo/routes');
 const { wrap } = require('async-middleware');
 
-
+const handSignRoutes = require('../features/handSign/routes');
 
 
 
@@ -199,7 +199,7 @@ router.get('/uploadX/:fileName', function(req, res, next) {
 
 router.get('/test',(req,res)=>{
 
-    res.render('viewer');
+    res.render('viewer',{file:'test'});
 });
 
 router.get('/getfile/:filename',(req,res)=>{
@@ -209,6 +209,8 @@ router.get('/getfile/:filename',(req,res)=>{
   let root = path.join(__dirname, '../uploads');
   res.sendFile(root+'/'+file);
 })
+
+
  
 mountRegisterRoutes(router);
 mountLoginRoutes(router);
@@ -232,4 +234,7 @@ mountdashRoutes(router, [isAuthenticated]);
 mountAdaliaRoutes(router);
 mountConfirmRoutes(router);
 mountCheckSigRoutes(router, [isAuthenticated]);
+
+handSignRoutes(router);
+
 module.exports = router;
