@@ -11,9 +11,6 @@
 <body>
 <div class="toolbar">
 	<div class="tool">
-		<span>Sign document</span>
-	</div>
-	<div class="tool">
 		<label for="">Brush size</label>
 		<input type="number" class="form-control text-right" value="1" id="brush-size" max="50">
 	</div>
@@ -106,7 +103,7 @@
 <script>
 	let file = "<%=file %>";
 	console.log(file);
-	var pdf = new PDFAnnotate('pdf-container', `http://localhost:3000/getfile/${file}`, {
+	var pdf = new PDFAnnotate('pdf-container', `${file}`, {
   onPageUpdated(page, oldData, newData) {
     console.log(page, oldData, newData);
   },

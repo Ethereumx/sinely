@@ -1,4 +1,4 @@
-var pdf = new PDFAnnotate('pdf-container', 'http://192.168.2.144:8000/sample.pdf', {
+var pdf = new PDFAnnotate('pdf-container', '', {
   onPageUpdated(page, oldData, newData) {
     console.log(page, oldData, newData);
   },

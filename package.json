@@ -26,6 +26,7 @@
     "concurrently": "^4.1.0",
     "connect-redis": "^3.4.0",
     "cookie-parser": "~1.4.3",
+    "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "debug": "~2.6.9",
     "del": "^3.0.0",

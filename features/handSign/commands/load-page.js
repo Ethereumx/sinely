@@ -1,4 +1,3 @@
-const { getUser } = require('../repository');
 
 async function loadPage(req, res) {
    

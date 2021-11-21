@@ -44,6 +44,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, staticFolder)));
+//cors
+const cors = require('cors');
+app.use(cors({
+    origin: '*'
+}));
 
 const { COOKIE_EXPIRATION_MS } = process.env;
 //console.log("------------------------------------------------",COOKIE_EXPIRATION_MS,process.env)

@@ -44,9 +44,6 @@ module.exports = router => {
   wrap(requestBodyValidation),
   wrap(PDFViewer)
   );
-  router.post('/sign2/:filename',(req,res)=>{
     
-  });
-  
   return router;
 };

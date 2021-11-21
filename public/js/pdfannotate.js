@@ -19,7 +19,7 @@ var PDFAnnotate = function (container_id, url, options = {}) {
   this.pageImageCompression = options.pageImageCompression ?
     options.pageImageCompression.toUpperCase() :
     'NONE';
-  this.textBoxText = 'Sample Text';
+  this.textBoxText = '';
   this.format;
   this.orientation;
   var inst = this;
