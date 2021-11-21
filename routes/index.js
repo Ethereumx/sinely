@@ -78,6 +78,10 @@ router.get('/sign', isAuthenticated, (req, res) => {
   res.render('vpages/sign');
 });
 
+router.get('/signv2', isAuthenticated, (req, res) => {
+  res.render('vpages/sign-v2');
+});
+
 router.get('/checkfile', isAuthenticated, (req, res) => {
   res.render('vpages/checkfile');
 });
