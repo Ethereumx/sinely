@@ -105,7 +105,15 @@ Register a user or login using :`admin@Sinely.com`:`Sinely@1*2*3` and start test
 Besides the dashboard and the auth pages this preset also has an edit profile page.
 **NOTE**: _Keep in mind that all available features can be viewed once you login using the credentials provided above or by registering your own user._
 
-## Features
+## How to add new feature?
+All feature routes are mounted in `routes/index.js` from the project root. There you should add your new route and point toward the secondary router that is located under `/features` folder. 
+For example, to add a router (let's call it uploader) for uploading files we will follow the steps below:
+
+1- Create a new folder under `/features/uploader` (you can choose a meaningful name for each new feature).
+
+2- Add the secondary router `/features/uploader/routes.js` 
+
+3- Add `const FileUploaderRouter = require('../features/uploader/routes');` and register it using `FileUploaderRouter(router, [isAuthenticated]);` (isAuthenticated is a midelware that restricts accessibility only for authenticated users)
 
 In order to see the available features `cd` into `features` folder, and you will then find a folder for each of the available features, mostly each folder containing:
 
