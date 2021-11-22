@@ -99,7 +99,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
 <script src="js/arrow.fabric.js"></script>
 <script src="js/sample_output.js"></script>
-<script src="js/pdfannotate.min.js"></script>
+<script src="js/pdfannotate.js"></script>
 <!--<script src="js/script.js"></script> -->
 <script>
 	let file = "<%=file %>";
@@ -110,7 +110,6 @@
   },
   ready() {
     console.log('Plugin initialized successfully');
-    pdf.loadFromJSON(sampleOutput);
   },
   scale: 1.5,
   pageImageCompression: 'MEDIUM', // FAST, MEDIUM, SLOW(Helps to control the new PDF file size)
