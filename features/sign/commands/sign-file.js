@@ -43,7 +43,6 @@ async function signFile(req, res) {
       const splitedPath = url.split('/');
       const fileName = splitedPath[splitedPath.length-1];
       const filePath = path.join(__dirname, '../../../uploads/'+fileName);
-      console.log('info ',filePath,fileName);
       file = await registerRepo.signFile(getKey.private_key,filePath,id,
         fileName, req.body.description, statusFile,
         req.user.public_key);

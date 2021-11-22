@@ -49,6 +49,7 @@ async function signFile(private_key, filePath,
       let objJsonStr = JSON.stringify(qrUrl);
       let base64Qr = Buffer.from(objJsonStr).toString("base64");
 
+      const fileRoute = `${process.env.URL_ADDRESS}/getfile/${filename}`;
  const [file] = await knex('files')
     .insert({
       owner_id:userId,
@@ -58,7 +59,7 @@ async function signFile(private_key, filePath,
       signed_at:new Date(),
       type:'signed',
       description:description,
-      path:filePath,
+      path:fileRoute,
       privacy:privacy,
       qrcode:base64Qr,
     })
