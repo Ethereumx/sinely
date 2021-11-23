@@ -203,7 +203,7 @@ router.get('/uploadX/:fileName', function(req, res, next) {
 
 router.get('/test',(req,res)=>{
 
-    res.render('viewer',{file:'test'});
+    res.render('viewer',{file:'http://localhost:4000/getfile/1637591311900-testdoc.pdf'});
 });
 
 router.get('/getfile/:filename',(req,res)=>{

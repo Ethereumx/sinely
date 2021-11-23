@@ -5,6 +5,8 @@ const multer = require('multer');
 // // set the directory for the uploads to the uploaded to
 var DIR = './uploads/';
 
+var fs = require('fs');
+
 //multer configs
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -43,6 +45,17 @@ module.exports = router => {
   afterUpload,
   wrap(requestBodyValidation),
   wrap(PDFViewer)
+  );
+
+  router.post('/testfile',(req,res)=>{
+// writeFile function with filename, content and callback function
+    fs.writeFile('newfile.pdf', JSON.parse(req.body.data), function (err) {
+      if (err) throw err;
+      console.log('File is created successfully.');
+      res.send('Ok');
+    });
+    ////
+  }
   );
     
   return router;

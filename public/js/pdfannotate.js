@@ -270,7 +270,34 @@ PDFAnnotate.prototype.savePdf = function (fileName) {
         undefined
     );
     if (index === inst.fabricObjects.length - 1) {
-      doc.save(fileName);
+      //doc.save(fileName);
+      ////////////  
+            var blob = doc.output();
+            //console.log(blob);
+            //var formData = new FormData();
+            //formData.append('pdf', blob);
+            //var reqData =  btoa(blob);
+            /*outurl = URL.createObjectURL(blob);
+            fetch(outurl)
+            .then(res => res.text())
+            .then(data => {
+                console.log(data)
+            })*/
+            var data = JSON.stringify(blob);
+            //console.log('data', data);
+            //console.log('-----------');
+            //console.log('res',atob(data));
+
+            $.ajax('/testfile',
+            {
+                method: 'POST',
+                data: {data:data},
+                dataType: 'json',
+                success: function(data){console.log(data)},
+                error: function(data){console.log(data)}
+            });
+      /////////////
+
     }
   });
 };
