@@ -19,7 +19,7 @@ var PDFAnnotate = function (container_id, url, options = {}) {
   this.pageImageCompression = options.pageImageCompression ?
     options.pageImageCompression.toUpperCase() :
     'NONE';
-  this.textBoxText = 'Simple Text';
+  this.textBoxText = 'Add Text';
   this.format;
   this.orientation;
   var inst = this;
@@ -391,3 +391,11 @@ PDFAnnotate.prototype.setDefaultTextForTextBox = function (text) {
     inst.textBoxText = text;
   }
 };
+
+///// custom function
+PDFAnnotate.prototype.setHandTool = function()
+{
+  let inst = this;
+  if(inst.active_tool === 2)
+    inst.active_tool =1;
+}

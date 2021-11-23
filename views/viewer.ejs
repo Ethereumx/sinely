@@ -106,7 +106,7 @@
 	console.log(file);
 	var pdf = new PDFAnnotate('pdf-container', `${file}`, {
   onPageUpdated(page, oldData, newData) {
-    console.log(page, oldData, newData);
+	pdf.setHandTool();
   },
   ready() {
     console.log('Plugin initialized successfully');
