@@ -33,7 +33,7 @@ async function signFile(req, res) {
     console.log('status file',statusFile)
     const getKey=await registerRepo.getPrivateKey(id);
     if(req.body && req.body.path === undefined)
-    {  console.log('hhhhe',req.file);
+    { 
       file = await registerRepo.signFile(getKey.private_key,req.file.path,id,
       req.file.originalname, req.body.description, statusFile,
       req.user.public_key);
@@ -52,7 +52,10 @@ async function signFile(req, res) {
     console.log("ERROR", error)
     req.session.messages = { errors: SIGNATURE_ERROR_MESSAGE  };
     file = error;
-    res.redirect('/sign');
+    if(req.ajax === true)
+        res.send('Error');
+        else
+        res.redirect('/sign');
   }
   if (file.signature) {
    
@@ -70,7 +73,10 @@ async function signFile(req, res) {
  else{
   const databaseError = SIGNATURE_ERROR_MESSAGE;
   req.session.messages = { errors: databaseError  };
-  res.redirect('/sign');
+  if(req.ajax === true)
+        res.send('Error');
+        else
+        res.redirect('/sign');
   }
 
 }
