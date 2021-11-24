@@ -23,6 +23,7 @@ var PDFAnnotate = function (container_id, url, options = {}) {
   this.format;
   this.orientation;
   var inst = this;
+  let pdfData;
 
   var loadingTask = pdfjsLib.getDocument(this.url);
   loadingTask.promise.then(
@@ -271,31 +272,32 @@ PDFAnnotate.prototype.savePdf = function (fileName) {
     );
     if (index === inst.fabricObjects.length - 1) {
       //doc.save(fileName);
-      ////////////  
-            var blob = doc.output();
-            //console.log(blob);
-            //var formData = new FormData();
-            //formData.append('pdf', blob);
-            //var reqData =  btoa(blob);
-            /*outurl = URL.createObjectURL(blob);
-            fetch(outurl)
-            .then(res => res.text())
-            .then(data => {
-                console.log(data)
-            })*/
-            var data = JSON.stringify(blob);
-            //console.log('data', data);
-            //console.log('-----------');
-            //console.log('res',atob(data));
-
-            $.ajax('/testfile',
-            {
-                method: 'POST',
-                data: {data:data},
-                dataType: 'json',
-                success: function(data){console.log(data)},
-                error: function(data){console.log(data)}
-            });
+      ////////////
+      try{
+          let splitedUrl = inst.url.split('/');
+          let originFileName = '';
+          originFileName = `Signed-${splitedUrl[splitedUrl.length -1]}`;
+          console.log(originFileName);
+          doc.originalname='test';
+          let signedPDF = doc.output('blob',originFileName);
+          
+          let formData = new FormData();
+          formData.append('editedfiletosign', signedPDF);
+          formData.append('originFileName',originFileName);
+          $.ajax('/signedited',
+          {
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data){ window.location.href = "/sign";},
+            error: function(data){console.log(data)}
+          });
+          //$("#pt").attr('value', signedPDF);
+      }catch(err)
+      {
+        console.log('err on saving doc',err);
+      }
       /////////////
 
     }
