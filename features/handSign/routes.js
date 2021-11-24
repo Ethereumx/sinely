@@ -41,7 +41,7 @@ cb(null, filename)
 const requestBodyValidation = require('./commands/verify-request-body');
 const PDFViewer = require('./commands/PDFViewer');
 const loadPage = require('./commands/load-page');
-const signFile = require('../sign/commands/sign-file');
+const signFile = require('./commands/sign-file');
 
 const fs = require('fs');
 const path = require('path');

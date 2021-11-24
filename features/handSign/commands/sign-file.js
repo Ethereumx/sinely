@@ -1,15 +1,17 @@
 const registerRepo = require('../repository');
 const { USER_NOT_FOUND_ERROR_MESSAGE,SIGNATURE_ERROR_MESSAGE,FILE_NOT_FOUND_ERROR_MESSAGE,SIGN_INFO_SUCCESS_MESSAGE } = require('../constants');
 const { getUser } = require('../repository');
+const path = require('path');
 
 async function signFile(req, res) {
- 
+  
   let file = {};
   let user = {};
   const {
     user: { id },
   } = req;
   try {
+  
     userInfo = await getUser(user && id);
   } catch (getUserError) {
     console.log(" USER_NOT_FOUND_ERROR_MESSAGE",getUserError)
@@ -30,15 +32,30 @@ async function signFile(req, res) {
 
     console.log('status file',statusFile)
     const getKey=await registerRepo.getPrivateKey(id);
-    file = await registerRepo.signFile(getKey.private_key,req.file.path,id,
+    if(req.body && req.body.path === undefined)
+    { 
+      file = await registerRepo.signFile(getKey.private_key,req.file.path,id,
       req.file.originalname, req.body.description, statusFile,
-      req.user.public_key); 
+      req.user.public_key);
+    }else
+    {
+      const url = req.body.path;
+      const splitedPath = url.split('/');
+      const fileName = splitedPath[splitedPath.length-1];
+      const filePath = path.join(__dirname, '../../../uploads/'+fileName);
+      file = await registerRepo.signFile(getKey.private_key,filePath,id,
+        fileName, req.body.description, statusFile,
+        req.user.public_key);
+    }
   
   } catch (error) {
     console.log("ERROR", error)
     req.session.messages = { errors: SIGNATURE_ERROR_MESSAGE  };
     file = error;
-    res.redirect('/sign');
+    if(req.ajax === true)
+        res.send('Error');
+        else
+        res.redirect('/sign');
   }
   if (file.signature) {
    
@@ -48,13 +65,21 @@ async function signFile(req, res) {
        url:process.env.URL_ADDRESS};
 
        req.session.userInfo = { ...userInfo };
-    res.redirect('/sign');
+       if(req.ajax === true)
+        res.send('Ok');
+        else
+        res.redirect('/sign');
   }
  else{
   const databaseError = SIGNATURE_ERROR_MESSAGE;
   req.session.messages = { errors: databaseError  };
-  res.redirect('/sign');
+  if(req.ajax === true)
+        res.send('Error');
+        else
+        res.redirect('/sign');
   }
+
 }
+
 
 module.exports = signFile;
