@@ -242,6 +242,10 @@ PDFAnnotate.prototype.deleteSelectedObject = function () {
 };
 
 PDFAnnotate.prototype.savePdf = function (fileName) {
+  let pdfContainer = $('#pdf-container');
+  let loader = $('#loader');
+  pdfContainer.hide();
+  loader.show();
   var inst = this;
   var format = inst.format || 'a4';
   var orientation = inst.orientation || 'portrait';
@@ -280,10 +284,10 @@ PDFAnnotate.prototype.savePdf = function (fileName) {
           console.log(originFileName);
           doc.originalname='test';
           let signedPDF = doc.output('blob',originFileName);
-          
           let formData = new FormData();
           formData.append('editedfiletosign', signedPDF);
           formData.append('originFileName',originFileName);
+      
           $.ajax('/signedited',
           {
             method: 'POST',
