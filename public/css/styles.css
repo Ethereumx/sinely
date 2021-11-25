@@ -12,8 +12,8 @@ canvas, .canvas-container {
     width: 100%;
     background-color: rgb(50, 54, 57);
     height: 50px;
-    position: fixed;
-    top: 0;
+    /*position: fixed;*/
+    /*top: 0; */
     left: 0;
     z-index: 10;
 }
