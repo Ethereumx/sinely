@@ -82,14 +82,14 @@
                       padding: 5px;
                       margin: 0;    padding-top: 10px;
                       padding-bottom: 10px;">
-                        <div class="avatar-group"> 
+                        <div class="avatar-group" id="qgroup<%=i%>"> 
                           <a href="#">
                             <!-- onclick="prepDownload(this, document.getElementById('imageQ<%= i%>'), 'QrCode<%= i%>.png')" -->
                             <div class="container">
    
                               <img  id="image<%= i%>"  data-toggle="modal" data-target="#canvasSigModal<%= i%>" width="150px">
                              </a>    
-                           <a href="#" download="imageQ<%= i%>.png">
+                           <a href="#" download="imageQ<%= i%>.png" id="qr<%=i %>">
                                <i class="fas fa-download"  ></i>
                            </div>
                          </a>
@@ -167,6 +167,7 @@
   </div>
                     </tr>
                     <script type="text/javascript">
+                    
                     var opts = {
                     errorCorrectionLevel: 'H',
                     type: 'image/jpeg',
@@ -181,8 +182,11 @@
                   QRCode.toDataURL("<%=url%>/file/sdata=<%= files[i].qrcode%>", opts, function (err, url) {
                     if (err) throw err
                   
-                    var img = document.getElementById('image'+'<%=i%>')
+                    let qgroup = document.getElementById('qgroup'+'<%=i%>');
+                    let img = qgroup.querySelector('#image'+'<%=i%>');
+                    let downloadImage = qgroup.querySelector('#qr'+'<%=i%>');
                     img.src = url
+                    downloadImage.href = url;
                   })
    
                       QRCode.toCanvas(document.getElementById('canvasSigPop'+'<%=i%>'), 
