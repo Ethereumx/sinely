@@ -119,7 +119,7 @@
 <script src="js/pdfannotate.js"></script>
 <!--<script src="js/script.js"></script> -->
 <script>
-	let file = "<%=file %>";
+	let file = "http://<%=file %>";
 	console.log(file);
 	var pdf = new PDFAnnotate('pdf-container', `${file}`, {
   onPageUpdated(page, oldData, newData) {
