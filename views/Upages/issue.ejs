@@ -25,7 +25,7 @@
   <div   class="form-group col-md-12">
     <label>Type du document :</label>
   <select id="documentchoice" name="documenttype" style="border : 1px #0b3a53 solid">
-  <option value="Diplome">Diplôme</option>
+  <option value="Diplome">eDoc</option>
   <option value="Attestation">Attestation</option>
   <!-- <option value="Acte">Acte</option> -->
   </select>
@@ -39,7 +39,7 @@
           
 
                         <div class="form-group">
-                          <label id="message">Charger une copie du diplôme <small>(Photo ou document)</small></label><br>
+                          <label id="message">Charger une copie du eDoc <small>(Photo ou document)</small></label><br>
                           <small>Avec un compte premium vous pouez générér des documents sans charger une copie</small>
                           <div class="input-group mb-3">
                             <input class="form-control" placeholder="Document à charger sur la blockchain" type="file" 
@@ -87,7 +87,7 @@
                         <div class="form-group">
                           <label>Mention</label>
                           <input class="form-control" placeholder="mention" type="text" name="attribute_3">
-                          <input class="form-control" type="hidden" value="Diplôme" name="attribute_4">
+                          <input class="form-control" type="hidden" value="eDoc" name="attribute_4">
 
                         </div>
 
@@ -281,7 +281,7 @@
                         
      $("#documentchoice").on("change", function() {
       var c = $('#documentchoice').find(":selected").text();
-      if(c=="Diplôme")
+      if(c=="eDoc")
            {
              $("#Diplome").show();
              $("#Attestation").hide();
